@@ -27,7 +27,23 @@ A web application where men, women & misc people can interact with a storytellin
 5. Functionality
 - Every answer you give sends a post to the backend
 - In the backend it looks if its answer 1, 2 or 3, and then it gives another 3 answers back it depend on what you said.
-- 
 
+## Moscow
 
+# Must have
+- 3d Rendering
+- Questions backend system
+- It saves nothing
 
+# Should have
+- mobile first responsive
+- Easy to navigate
+- A personality test
+
+# Could have
+- Background Music / Sound Effects
+- Progress Summary at End
+
+# Won't have
+- Log in system
+- Saves you're data
