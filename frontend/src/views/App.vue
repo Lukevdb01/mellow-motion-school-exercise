@@ -1,13 +1,13 @@
 <script setup>
-import CanvasContainer from '@/components/CanvasContainer.vue'
+import viewportContainer from '@/components/ViewportContainer.vue'
 import TabBox from '@/components/TabBox.vue'
 </script>
 
 <template>
     <section class="h-screen flex flex-col">
-        <CanvasContainer/>
+        <viewportContainer />
         <div>
-            <TabBox/>
+            <TabBox />
         </div>
     </section>
 </template>
