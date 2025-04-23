@@ -27,7 +27,7 @@ Not needed
 
 ## Testing
 Tests based on the requirements in the FDD:
-Lighthouse, WebTestOrg, feedback form on how the application works
+Lighthouse, WebTestOrg, feedback form on how the application works, vue devtools
 
 ### Deployment
 Github pages for frontend, for backend we are serving it on: api.lukevdbroek.nl
