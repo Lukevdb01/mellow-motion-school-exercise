@@ -1,2 +1,45 @@
-.idea
-node_modules/
+# === Global ===
+.DS_Store
+Thumbs.db
+.env
+.env.local
+*.log
+*.bak
+*.tmp
+
+# === Node / Vue (frontend) ===
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.output/
+/frontend/.cache/
+/frontend/.env*
+
+# === PHP / Composer (backend) ===
+/backend/vendor/
+/backend/.env*
+/backend/storage/logs/
+/backend/storage/cache/
+/backend/storage/framework/
+/backend/public/storage
+/backend/.phpunit.result.cache
+
+# === IDEs & OS ===
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# === Coverage / Testing ===
+/coverage/
+/tests/_output/
+/phpunit.xml.cache
+
+# === Build artifacts ===
+/build/
+/*.zip
+*.tar.gz
+
+# === Docker & containers (optioneel) ===
+.docker/
+/docker-compose.override.yml
