@@ -1,25 +1,30 @@
 import * as THREE from 'three';
 import sceneManager from './SceneManager.js';
-import Scene from './Scene.js';
+
+let activeScene = null;
 
 class Renderer {
-    /**
-     *
-     */
-    _sceneManager = null;
+    sceneManager = null;
+    renderer = null;
 
     constructor() {
-        this._sceneManager = new sceneManager();
+        this.sceneManager = new sceneManager();
     }
-
     init() {
         // Initialize the renderer
-        this._sceneManager.addScene(new Scene("MyTestScene"));
-        console.log(this._sceneManager.getActiveScene().collection.name);
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        activeScene = this.sceneManager.getActiveScene();
+    }
+
+    target(element) {
+        element.value.appendChild(this.renderer.domElement);
+
+        this.renderer.setSize(element.value.offsetWidth, element.value.offsetHeight)
     }
 
     render() {
-
+        requestAnimationFrame(() => this.render());
+        this.renderer.render(activeScene.scene, activeScene.camera);  
     }
 }
 export default Renderer;
