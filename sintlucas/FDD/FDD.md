@@ -3,7 +3,7 @@ A web application where men, women & misc people can interact with a storytellin
 
 ## Functional requirements
 1. A user opens up the application.
-2. A user can fill in his name and his gender.
+2. A user can fill in his name.
 3. A user needs to be able to interact with three buttons for answers a user can give a response with the button.
 4. A user gets a new question/answer after he interacted with the answer
 
@@ -27,6 +27,7 @@ A web application where men, women & misc people can interact with a storytellin
 5. Functionality
 - Every answer you give sends a post to the backend
 - In the backend it looks if its answer 1, 2 or 3, and then it gives another 3 answers back it depend on what you said.
+- It also haves audio when the character speakers
 
 ## Moscow
 
@@ -39,10 +40,12 @@ A web application where men, women & misc people can interact with a storytellin
 - mobile first responsive
 - Easy to navigate
 - A personality test
+- if you make the character mad it changes color to show emotions
 
 # Could have
 - Background Music / Sound Effects
 - Progress Summary at End
+- scene transition eyes blinking
 
 # Won't have
 - Log in system

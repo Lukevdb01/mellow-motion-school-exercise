@@ -14,7 +14,7 @@ Three different endpoints, for the A, B, C buttons based on that it is returning
 FRONTEND:
 VueJS, Tailwindcss, threejs, scene manager, regular javascript, API interaction service
 
-ThreeJS -> Shader loader, 3D renderer, GLTF Loader & Performance optimized
+ThreeJS -> Shader loader, Shaders with tune design, 3D renderer, GLTF Loader & Performance optimized
 Scene manager is going to be linked against libraries of threejs, combined with the vue framework, we want to have different views available so we need a way to structure this all.
 
 API Interaction service, to link against the REST API built in PHP
