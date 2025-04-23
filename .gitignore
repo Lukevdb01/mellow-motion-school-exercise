@@ -1,13 +1,17 @@
-# === Global ===
+# === Global ignores ===
 .DS_Store
 Thumbs.db
-.env
-.env.local
 *.log
 *.bak
 *.tmp
+*.local
+*.tsbuildinfo
 
-# === Node / Vue (frontend) ===
+# === Environment files ===
+.env
+.env.*   # includes .env.local, .env.development etc.
+
+# === Node / Vue / Vite (Frontend) ===
 /frontend/node_modules/
 /frontend/dist/
 /frontend/.vite/
@@ -15,31 +19,51 @@ Thumbs.db
 /frontend/.cache/
 /frontend/.env*
 
-# === PHP / Composer (backend) ===
+# === PHP / Composer (Backend) ===
 /backend/vendor/
 /backend/.env*
-/backend/storage/logs/
-/backend/storage/cache/
-/backend/storage/framework/
+/backend/storage/
+/backend/bootstrap/cache/
 /backend/public/storage
 /backend/.phpunit.result.cache
-
-# === IDEs & OS ===
-.vscode/
-.idea/
-*.sublime-workspace
-*.sublime-project
-
-# === Coverage / Testing ===
-/coverage/
-/tests/_output/
-/phpunit.xml.cache
+/backend/phpunit.xml.cache
 
 # === Build artifacts ===
 /build/
 /*.zip
 *.tar.gz
 
-# === Docker & containers (optioneel) ===
+# === Coverage / Testing ===
+/coverage/
+/tests/_output/
+/cypress/videos/
+/cypress/screenshots/
+
+# === IDE & Editor config ===
+.vscode/
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# === Docker & Container (optioneel) ===
 .docker/
-/docker-compose.override.yml
+docker-compose.override.yml
+
+# === General Node & Package Managers ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# === Framework-specific output ===
+dist/
+dist-ssr/
