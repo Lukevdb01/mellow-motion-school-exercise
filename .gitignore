@@ -12,12 +12,12 @@ Thumbs.db
 .env.*   # includes .env.local, .env.development etc.
 
 # === Node / Vue / Vite (Frontend) ===
-/frontend/node_modules/
-/frontend/dist/
-/frontend/.vite/
-/frontend/.output/
-/frontend/.cache/
-/frontend/.env*
+/node_modules/
+dist/
+.vite/
+.output/
+.cache/
+.env*
 
 # === PHP / Composer (Backend) ===
 /backend/vendor/
