@@ -1,25 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import Renderer from '@/core/Renderer.js';
-import Scene from '@/core/Scene.js';
+import Renderer from '@/core/Renderer';
+import Entry from '@/scenes/entry.scene';
+import sceneManager from '@/core/SceneManager';
+import Game from '@/scenes/game.scene';
 
 const renderer = new Renderer();
 const viewport = ref(null);
 
 onMounted(() => {
   viewport.value = document.getElementById('viewport');
-  renderer.sceneManager.addScene(new Scene('MyDefaultScene'));
+  sceneManager.addScene(new Game());
+  sceneManager.addScene(new Entry());
+
+  console.log(sceneManager._sceneArray);
+
   renderer.init(); // <-- Geef de DOM-ref door
-  renderer.sceneManager.getActiveScene().addObject();
-  // Your code to execute after 30 seconds
-  setInterval(() => {
-    console.log("30 seconds have passed!");
-    renderer.deleteSceneByName('MyDefaultScene');
-  }, 15000);
-
-
   renderer.render();
-  renderer.target(viewport)
+  renderer.target(viewport);
 });
 </script>
 

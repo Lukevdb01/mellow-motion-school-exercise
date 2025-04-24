@@ -28,15 +28,14 @@ class Scene {
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(10, 10, 10);
         this.scene.add(light);
-
     }
 
     get collection() {
         return this.collection;
     }
 
-    addObject() {
-        gltfLoader.load('models/Sponza/Sponza.gltf', (gltf) => {
+    addMesh(url) {
+        gltfLoader.load(url, (gltf) => {
             const model = gltf.scene;
 
             model.traverse((node) => {
