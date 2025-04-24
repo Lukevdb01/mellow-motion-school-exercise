@@ -6,12 +6,16 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 require_once __DIR__ . '/controllers/StoryController.php';
 
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
 $controller = new StoryController();
 
-// Simple routing
 if ($method === 'GET' && isset($uri[1]) && $uri[0] === 'backend' && $uri[1] === 'scene') {
     $sceneId = $uri[2] ?? 'scene1';
     $controller->getScene($sceneId);
