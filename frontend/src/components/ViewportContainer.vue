@@ -11,11 +11,12 @@ onMounted(() => {
   renderer.sceneManager.addScene(new Scene('MyDefaultScene'));
   renderer.init(); // <-- Geef de DOM-ref door
   renderer.sceneManager.getActiveScene().addObject();
-  setTimeout(function() {
-    // Your code to execute after 30 seconds
+  // Your code to execute after 30 seconds
+  setInterval(() => {
     console.log("30 seconds have passed!");
-    renderer.sceneManager.deleteSceneByName('MyDefaultScene');
-}, 30000); // 30000 milliseconds = 30 seconds
+    renderer.deleteSceneByName('MyDefaultScene');
+  }, 15000);
+
 
   renderer.render();
   renderer.target(viewport)
