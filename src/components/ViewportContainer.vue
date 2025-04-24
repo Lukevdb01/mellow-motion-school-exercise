@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import Renderer from '@/core/Renderer.js';
-import Scene from '@/scenes/entry.scene';
+import Renderer from '@/core/Renderer';
+import Entry from '@/scenes/entry.scene';
 import sceneManager from '@/core/SceneManager';
+import Game from '@/scenes/game.scene';
 
 const renderer = new Renderer();
 const viewport = ref(null);
 
 onMounted(() => {
   viewport.value = document.getElementById('viewport');
-  sceneManager.addScene(new Scene('EntryPointScene'));
+  sceneManager.addScene(new Game());
+  sceneManager.addScene(new Entry());
 
   console.log(sceneManager._sceneArray);
 

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import sceneManager from './SceneManager.js';
+import sceneManager from './SceneManager';
 
 let activeScene = null;
 
@@ -13,6 +13,8 @@ class Renderer {
         // Initialize the renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         activeScene = sceneManager.getActiveScene();
+
+        activeScene.load();
     }
 
     target(element) {
@@ -27,6 +29,10 @@ class Renderer {
 
     render() {
         requestAnimationFrame(() => this.render());
+        if(activeScene !== sceneManager.getActiveScene()) {
+            activeScene = sceneManager.getActiveScene();
+            activeScene.load();
+        }
         this.renderer.render(activeScene.scene, activeScene.camera);  
     }
 }

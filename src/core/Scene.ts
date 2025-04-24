@@ -67,6 +67,5 @@ class Scene {
           }
           console.log("removed all assets");
     }
-    
 }
 export default Scene;

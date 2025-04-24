@@ -5,9 +5,10 @@ class Game extends Scene {
      *
      */
     constructor() {
-        super();
-        this.collection.name = "GameScene";
-        console.log("New active scene");
+        super("GameScene");
+    }
+
+    load() {
         this.addMesh('models/Sponza/Sponza.gltf');
     }
 }

@@ -24,8 +24,7 @@ class SceneManager {
       }
       const [scene] = this._sceneArray.splice(i, 1);
       this._sceneArray.push(scene);
-
-      
+      this.
     }
   
     deleteSceneByName(name) {
