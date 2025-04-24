@@ -50,5 +50,23 @@ class Scene {
             this.scene.add(model);
         });
     }
+
+    clearScene() {
+        this.scene.traverse((object) => {
+            if (!object.isMesh) return; 
+            object.geometry.dispose();
+        
+            if (Array.isArray(object.material)) {
+              object.material.forEach((material) => material?.dispose());
+            } else {
+              object.material.dispose();
+            }
+          });
+          
+          for (let index = 0; index < this.scene.children.length; index++) {
+            this.scene.remove(this.scene.children[index]);
+          }
+          console.log("removed all assets");
+    }
 }
 export default Scene;

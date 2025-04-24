@@ -27,7 +27,7 @@ class sceneManager {
         if (i === -1) {
             throw new Error(`Scene with name "${name}" not found.`);
         }
-        this._sceneArray.splice(i, 1);
+        this._sceneArray[i].clearScene();
     }
 }
 export default sceneManager;
