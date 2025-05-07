@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const gltfLoader = new GLTFLoader();
 
@@ -11,39 +11,43 @@ class Scene {
      * @property {THREE.PerspectiveCamera} _camera - The camera used to view the scene
      * @property {Object} collection - Collection of objects in the scene
      */
-    scene = null;
-    camera = null;
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera | null = null;
 
-    collection = {
+    _collection = {
         name: "DefaultScene"
     };
 
-    constructor(name) {
+    // For reference, this is a define for on the active scene
+    load(): void { }
+
+    constructor(name: string) {
         this.collection.name = name;
 
         // Intialize the scene and properties of the scene
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
+        const light: THREE.DirectionalLight = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(10, 10, 10);
         this.scene.add(light);
     }
 
     get collection() {
-        return this.collection;
+        return this._collection;
     }
 
-    addMesh(url) {
-        gltfLoader.load(url, (gltf) => {
-            const model = gltf.scene;
+    addMesh(url: string) {
+        gltfLoader.load(url, (gltf: GLTF) => {
+            const model: THREE.Group = gltf.scene;
 
-            model.traverse((node) => {
-                if (node.isMesh) {
-                    node.castShadow = true;
-                    node.receiveShadow = true;
-                    node.frustumCulled = true;
-                }
+            model.traverse((node: THREE.Object3D) => {
+            if ((node as THREE.Mesh).isMesh) {
+                const mesh = node as THREE.Mesh;
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                mesh.frustumCulled = true;
+            }
             });
 
             this.scene.add(model);
@@ -51,14 +55,15 @@ class Scene {
     }
 
     clearScene() {
-        this.scene.traverse((object) => {
-            if (!object.isMesh) return; 
-            object.geometry.dispose();
+        this.scene.traverse((object: THREE.Object3D) => {
+            if (!(object as THREE.Mesh).isMesh) return; 
+            const mesh = object as THREE.Mesh;
+            mesh.geometry.dispose();
         
-            if (Array.isArray(object.material)) {
-              object.material.forEach((material) => material?.dispose());
+            if (Array.isArray(mesh.material)) {
+              mesh.material.forEach((material: THREE.Material) => material?.dispose());
             } else {
-              object.material.dispose();
+              (mesh.material as THREE.Material).dispose();
             }
           });
           
