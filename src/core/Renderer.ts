@@ -19,7 +19,7 @@ class Renderer {
     }
 
     target(element: { value: HTMLElement }): void {
-        if(!this.renderer) return;
+        if (!this.renderer) return;
 
         element.value.appendChild(this.renderer.domElement);
         this.renderer.setSize(element.value.offsetWidth, element.value.offsetHeight);
@@ -32,7 +32,8 @@ class Renderer {
 
     render() {
         requestAnimationFrame(() => this.render());
-        if(activeScene !== sceneManager.getActiveScene()) {
+
+        if (activeScene !== sceneManager.getActiveScene()) {
             activeScene = sceneManager.getActiveScene();
             activeScene.load();
         }
