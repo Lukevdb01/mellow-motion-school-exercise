@@ -27,8 +27,8 @@ class Game extends Scene {
         this.environment();
     
         // Wait for the model to be loaded
-        const gltf = await this.addMesh('models/Crab.glb');
-
+        const gltf = await this.addMesh('models/sleeproom.glb');
+        
         // Check if animations exist and create a mixer for them
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
