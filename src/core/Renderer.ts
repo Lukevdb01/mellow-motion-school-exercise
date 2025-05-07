@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import sceneManager from './SceneManager';
+import Scene from './Scene';
 
-let activeScene = null;
+let activeScene: Scene;
 
 /**
  * @param {THREE.WebGLRenderer} renderer
  */
 class Renderer {
-    renderer = null;
+    renderer: THREE.WebGLRenderer | null = null;
 
     init() {
         // Initialize the renderer
@@ -17,14 +18,16 @@ class Renderer {
         activeScene.load();
     }
 
-    target(element) {
+    target(element: { value: HTMLElement }): void {
+        if(!this.renderer) return;
+
         element.value.appendChild(this.renderer.domElement);
-        this.renderer.setSize(element.value.offsetWidth, element.value.offsetHeight)
+        this.renderer.setSize(element.value.offsetWidth, element.value.offsetHeight);
     }
 
-    deleteSceneByName(name) {
+    deleteSceneByName(name: string): void {
         sceneManager.deleteSceneByName(name);
-        this.renderer.clear();
+        this.renderer?.clear();
     }
 
     render() {
@@ -33,7 +36,10 @@ class Renderer {
             activeScene = sceneManager.getActiveScene();
             activeScene.load();
         }
-        this.renderer.render(activeScene.scene, activeScene.camera);  
+
+        if (activeScene.camera && this.renderer) {
+            this.renderer.render(activeScene.scene, activeScene.camera);
+        }
     }
 }
 export default Renderer;
