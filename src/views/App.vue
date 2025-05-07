@@ -1,11 +1,11 @@
 <script setup>
-import viewportContainer from '@/components/ViewportContainer.vue'
+import ViewportParentContainer from '@/components/ViewportParentContainer.vue'
 import TabBox from '@/components/TabBox.vue'
 </script>
 
 <template>
     <section class="h-screen flex flex-col">
-        <viewportContainer />
+        <ViewportParentContainer />
         <div>
             <TabBox />
         </div>
