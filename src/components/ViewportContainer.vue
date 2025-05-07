@@ -18,16 +18,18 @@ onMounted(() => {
   resizeHandler(); // Set initial size
 
   nextTick(() => {
-    viewport.value = document.getElementById('viewport');
+    viewport.value;
     sceneManager.addScene(new Game());
     renderer.init();
     renderer.render();
     renderer.target(viewport);
   });
-
+});
 onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeHandler);
 });
+
+
 </script>
 
 <template>
