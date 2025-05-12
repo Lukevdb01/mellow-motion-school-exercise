@@ -1,7 +1,6 @@
 import Scene from "@/core/Scene";
 import * as THREE from 'three';
-import {gasp} from 'gasp';
-import sceneManager from "@/core/SceneManager";
+import SplineCamera from "@/core/SplineCamera";
 
 class Game extends Scene {
     points = [
@@ -10,12 +9,10 @@ class Game extends Scene {
         new THREE.Vector3(10, 0, 0),
         new THREE.Vector3(15, -5, 0),
     ]
-    curve: THREE.CatmullRomCurve3 | undefined;
-    relativeTime = 0;
 
-    /**
-     *
-     */
+    splineFollowCamera: SplineCamera | undefined;
+    curve: THREE.CatmullRomCurve3 | undefined;
+
     constructor() {
         super("GameScene");
     }
@@ -37,15 +34,16 @@ class Game extends Scene {
 
         this.scene.add(line);
         this.scene.add(plane);
-
-        this.camera.position.set(0, 0, 5);
-
     }
 
     override async load(): Promise<void> {
         super.load();
         this.environment();
 
+        if(!this.camera) return;
+
+        this.splineFollowCamera = new SplineCamera(this.curve, this.camera);
+        this.splineFollowCamera.set(0, 0, 5);
 
         // Wait for the model to be loaded
         const gltf = await this.addMesh('models/Memo.glb');
@@ -53,22 +51,18 @@ class Game extends Scene {
         // Check if animations exist and create a mixer for them
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
-                this.mixer.clipAction(clip).play();
+                if (this.mixer) {
+                    this.mixer.clipAction(clip).play();
+                }
             });
         }
     }
 
     override async update(): Promise<void> {
         super.load();
-        
-        const pos = this.curve?.getPointAt((this.relativeTime + 0.01) % 1);
-        this.camera?.position.copy(pos);
-
-        const nextPos = this.curve?.getPointAt((this.relativeTime + 0.01) % 1);
-        this.camera?.lookAt(nextPos);
-
-        this.relativeTime += 0.001;
-        if(this.relativeTime > 1) this.relativeTime = 0;
+        if(this.splineFollowCamera) {
+            this.splineFollowCamera.update();
+        }
     }
 }
 export default Game;

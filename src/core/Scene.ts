@@ -10,7 +10,6 @@ class Scene {
     _collection = {
         name: "DefaultScene"
     };
-    
     load(): void {}
     update(): void {}
 
