@@ -10,7 +10,9 @@ class Scene {
     _collection = {
         name: "DefaultScene"
     };
+    
     load(): void {}
+    update(): void {}
 
     constructor(name: string) {
         this.collection.name = name;
@@ -43,8 +45,6 @@ class Scene {
                             mesh.frustumCulled = true;
                         }
                     });
-
-                    model.scale.set(8, 8, 8);
                     this.scene.add(model);
 
                     // Save the GLTF model and animations in the scene
