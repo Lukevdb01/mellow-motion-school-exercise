@@ -1,38 +1,38 @@
 import * as THREE from 'three';
 
-class Camera {
-    camera: THREE.PerspectiveCamera | undefined;
-    private followActor: any | undefined;
-
-    positionX: number = 0;
-    positionY: number = 0;
-    positionZ: number = 0;
-
+class SplineCamera {
+    private camera: THREE.PerspectiveCamera;
+    private spline: THREE.Curve<THREE.Vector3>;
     private relativeTime: number = 0;
-    
-    /**
-     * This constructor is used for when a follow camera
-     * @param points 
-     * @param followActor 
-     */
-    constructor(_followActor: any, _camera: THREE.PerspectiveCamera) {
-        this.camera = _camera;
-        this.followActor = _followActor;
+
+    constructor(spline: THREE.Curve<THREE.Vector3>, camera: THREE.PerspectiveCamera) {
+        this.spline = spline;
+        this.camera = camera;
     }
 
     set(x: number, y: number, z: number): void {
-        this.camera?.position.set(x,y,z);
+        this.camera.position.set(x, y, z);
     }
 
-    update() {
-        const pos = this.followActor?.getPointAt((this.relativeTime + 0.01) % 1);
-        this.camera?.position.copy(pos);
+    update(deltaTime: number = 0.001, shouldStopAtEnd: boolean = false): void {
+        if (shouldStopAtEnd && this.relativeTime >= 1) return;
+        if (shouldStopAtEnd) {
+            this.relativeTime = Math.min(this.relativeTime + deltaTime, 1);
+        } else {
+            this.relativeTime = (this.relativeTime + deltaTime) % 1;
+        }
 
-        const nextPos = this.followActor?.getPointAt((this.relativeTime + 0.01) % 1);
-        this.camera?.lookAt(nextPos);
+        const currentPos = this.spline.getPointAt(this.relativeTime);
+        let lookAheadPos;
 
-        this.relativeTime += 0.001;
-        if(this.relativeTime > 1) this.relativeTime = 0;
+        if (this.relativeTime >= 1 && shouldStopAtEnd) {
+            lookAheadPos = this.spline.getPointAt(1);
+        } else {
+            lookAheadPos = this.spline.getPointAt(Math.min(this.relativeTime + 0.01, 1));
+        }
+
+        this.camera.position.copy(currentPos);
+        this.camera.lookAt(lookAheadPos);
     }
 }
-export default Camera;
+export default SplineCamera;
