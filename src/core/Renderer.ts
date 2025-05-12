@@ -45,6 +45,7 @@ render() {
         const delta = this.clock.getDelta();
         activeScene.mixer.update(delta); // Update animations
     }
+    activeScene.update();
 
     if (activeScene.camera && this.renderer) {
         this.renderer.render(activeScene.scene, activeScene.camera);
