@@ -1,15 +1,24 @@
   <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import EyelidBlink from "@/components/EyelidBlink.vue";
 
   const fadeOut = ref(false); // Control fade-out
   const hideContent = ref(false); // Hides content after fade
+  const showBlink = ref(false);
+  const phoneScene = ref(false);
 
   const start = () => {
     fadeOut.value = true;
     setTimeout(() => {
       hideContent.value = true; // Completely hide after fade
+      showBlink.value = true;
     }, 500);
+  };
+
+  const startPhoneScene = () => {
+      phoneScene.value = true;
+      showBlink.value = false;
   };
   </script>
 
@@ -34,8 +43,11 @@
           <img src="" alt="3dlogo">
         </div>
       </div>
-      <div v-if="hideContent" class="h-full w-full bg-amber-400">
+      <EyelidBlink v-model="showBlink" @blinkFinished="startPhoneScene"/>
+      <div v-if="phoneScene" class="flex flex-col items-center justify-center gap-4">
+        <div class="bg-gray-800 rounded h-96 w-56 cursor-pointer">
 
+        </div>
       </div>
     </section>
   </template>
