@@ -6,11 +6,14 @@ class Scene {
     camera: THREE.PerspectiveCamera | null = null;
     gltfLoader = new GLTFLoader();
     mixer: THREE.AnimationMixer | null = null;  // Add mixer property to store animation mixer
+    htmlCanvas: HTMLElement | null = null;
 
     _collection = {
         name: "DefaultScene"
     };
-    load(): void {}
+    load(): void {
+        this.htmlCanvas = document.getElementById('html-canvas');
+    }
     update(): void {}
 
     constructor(name: string) {
@@ -72,8 +75,6 @@ class Scene {
         for (let index = 0; index < this.scene.children.length; index++) {
             this.scene.remove(this.scene.children[index]);
         }
-
-        console.log("removed all assets");
     }
 }
 export default Scene;

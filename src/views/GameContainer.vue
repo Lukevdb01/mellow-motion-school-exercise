@@ -7,8 +7,5 @@ import ViewportContainer from "@/components/ViewportContainer.vue";
 <template>
   <section class="h-screen flex flex-col">
     <ViewportContainer />
-    <div>
-      <TabBox />
-    </div>
   </section>
 </template>

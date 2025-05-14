@@ -33,5 +33,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section class="w-full h-full overflow-hidden" ref="viewport"></section>
+  <div class="relative w-full flex items-center justify-center h-full">
+    <div id="html-canvas"></div>
+    <section class="w-full h-full overflow-hidden" ref="viewport"></section>
+  </div>
 </template>

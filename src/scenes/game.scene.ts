@@ -19,6 +19,7 @@ class Game extends Scene {
 
     override async load(): Promise<void> {
         super.load();
+        this.layout();
         this.environment();
 
         if (!this.camera /* || !this.curve */) return;
@@ -43,7 +44,7 @@ class Game extends Scene {
         // }
     }
 
-        environment() {
+    environment() {
         this.scene.background = new THREE.Color(0x87CEEB);
         this.camera.position.set(0, 20, 40);
         this.camera.lookAt(0, 15, 0);
@@ -59,6 +60,12 @@ class Game extends Scene {
         const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
         const line = new THREE.Line(curveGeometry, curveMaterial);
         this.scene.add(line);
+    }
+
+    layout() {
+        const elem = document.createElement('div');
+        elem.innerHTML = `<h1>Hello, World</h1>`;
+        this.htmlCanvas?.appendChild(elem);
     }
 }
 export default Game;
