@@ -30,17 +30,27 @@ class Renderer {
         this.renderer?.clear();
     }
 
-    render() {
-        requestAnimationFrame(() => this.render());
+    private clock = new THREE.Clock();
 
-        if (activeScene !== sceneManager.getActiveScene()) {
-            activeScene = sceneManager.getActiveScene();
-            activeScene.load();
-        }
+render() {
+    requestAnimationFrame(() => this.render());
 
-        if (activeScene.camera && this.renderer) {
-            this.renderer.render(activeScene.scene, activeScene.camera);
-        }
+    if (activeScene !== sceneManager.getActiveScene()) {
+        activeScene = sceneManager.getActiveScene();
+        activeScene.load();
     }
+
+    // Update animation mixer
+    if (activeScene.mixer) {
+        const delta = this.clock.getDelta();
+        activeScene.mixer.update(delta); // Update animations
+    }
+    activeScene.update();
+
+    if (activeScene.camera && this.renderer) {
+        this.renderer.render(activeScene.scene, activeScene.camera);
+    }
+}
+
 }
 export default Renderer;
