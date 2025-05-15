@@ -1,5 +1,9 @@
 import Scene from "@/core/Scene";
 import * as THREE from 'three';
+import GameSceneView from '@/scenes/GameSceneView.vue';
+import {render, h} from "vue";
+import app from "@/main";
+
 // import splineCamera from "@/core/SplineCamera";
 
 class Game extends Scene {
@@ -19,7 +23,7 @@ class Game extends Scene {
 
     override async load(): Promise<void> {
         super.load();
-        this.layout();
+        this.mountUI();
         this.environment();
 
         if (!this.camera /* || !this.curve */) return;
@@ -62,10 +66,20 @@ class Game extends Scene {
         this.scene.add(line);
     }
 
-    layout() {
-        const elem = document.createElement('div');
-        elem.innerHTML = `<h1>Hello, World</h1>`;
-        this.htmlCanvas?.appendChild(elem);
+    mountUI() {
+        const container = document.createElement('div');
+        container.id = 'vue-ui';
+        container.style.position = 'absolute';
+        container.style.top = '0';
+        container.style.left = '10px';
+        container.style.zIndex = '100';
+
+        document.body.appendChild(container);
+
+        const vnode = h(GameSceneView);
+        vnode.appContext = app._context;
+
+        render(vnode, container);
     }
 }
 export default Game;
