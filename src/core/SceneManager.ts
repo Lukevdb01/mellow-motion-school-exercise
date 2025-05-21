@@ -19,6 +19,14 @@ class SceneManager {
     return this._sceneArray[this._sceneArray.length - 1];
   }
 
+  getActiveSceneCollection() {
+    return this.getActiveScene().collection;
+  }
+
+  getSceneCollections() {
+    return this._sceneArray.map(scene => scene.collection);
+  }
+
   setActiveSceneByName(name: string) {
     const i = this._sceneArray.findIndex(scene => scene.collection.name === name);
     if (i === -1) {
