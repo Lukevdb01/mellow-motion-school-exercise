@@ -18,7 +18,7 @@ const resizeHandler = () => {
 };
 
 onBeforeMount(() => {
-  sceneManager.addScene(new Intro());
+  sceneManager.addScene(new Intro(), true);
   sceneManager.addScene(new Scene1())
   sceneManager.addScene(new Scene2());
   sceneManager.addScene(new Outro());

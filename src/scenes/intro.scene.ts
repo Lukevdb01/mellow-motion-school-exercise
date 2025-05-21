@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import GameSceneView from '@/scenes/GameSceneView.vue';
 import {render, h} from "vue";
 import app from "@/main";
+import sceneManager from "@/core/SceneManager";
 
 // import splineCamera from "@/core/SplineCamera";
 
@@ -33,13 +34,18 @@ class Game extends Scene {
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
-        const gltf = await this.addMesh('models/memo.glb');
+        const gltf = await this.addMesh('models/Memo.glb');
 
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
             });
         }
+
+        setTimeout(() => {
+            sceneManager.deleteSceneByName('IntroScene');
+            sceneManager.setActiveSceneByName('Scene1');
+        }, 5000);
     }
 
     override async update(): Promise<void> {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import sceneManager from '@/core/sceneManager';
+import { ref, watch } from 'vue'
+import sceneManager from '@/core/sceneManager'
 
 interface SceneCollection {
   name: string
@@ -15,13 +15,9 @@ function updateActiveScene(newCollection: SceneCollection | null) {
   activeScene.value = newCollection
   const sceneName = newCollection?.name ?? null
 
-  if (sceneName) {
-    activeBaseScene.value = sceneName.replace(/-extended$/, '')
-  } else {
-    activeBaseScene.value = null
-  }
+  activeBaseScene.value = sceneName?.replace(/-extended$/, '') ?? null
 
-  const collections = sceneManager.getSceneCollections() || []
+  const collections = sceneManager.getSceneCollections()
   imageSources.value = collections.map(({ name, base }) => {
     const isActive = activeBaseScene.value === name
     return {
@@ -31,7 +27,11 @@ function updateActiveScene(newCollection: SceneCollection | null) {
     }
   })
 }
-updateActiveScene(sceneManager.getActiveSceneCollection())
+
+// ✅ Reageer automatisch op sceneManager.activeSceneName
+watch(() => sceneManager.activeSceneName.value, () => {
+  updateActiveScene(sceneManager.getActiveSceneCollection())
+}, { immediate: true })
 </script>
 
 <template>
