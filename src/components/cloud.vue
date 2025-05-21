@@ -123,4 +123,8 @@ canvas {
   filter: blur(8px);
   transition: all 0.3s ease;
 }
+
+.cloud:hover canvas {
+  transform: scale(1.05);
+}
 </style>
