@@ -1,31 +1,33 @@
-import Scene from "./Scene";
+import { ref } from 'vue'
+import Scene from './Scene'
 
 class SceneManager {
-  _sceneArray: Scene[] = [];
-  static _instance: SceneManager | null = null;
+  private _sceneArray: Scene[] = []
+  private static _instance: SceneManager | null = null
+  public activeSceneName = ref<string | null>(null) // ✅ Reactief veld
 
   constructor() {
     if (SceneManager._instance) {
-      throw new Error("Singleton classes can't be instantiated more than once.");
+      throw new Error("Singleton classes can't be instantiated more than once.")
     }
-    SceneManager._instance = this;
+    SceneManager._instance = this
   }
 
-  addScene(scene: Scene) {
-    this._sceneArray.push(scene);
-  }
+  addScene(newScene: Scene, activeScene = false) {
+    if (this._sceneArray.some(scene => scene.collection.name === newScene.collection.name)) {
+      throw new Error(`Scene "${newScene.collection.name}" already exists.`)
+    }
 
-  getActiveScene() {
-    return this._sceneArray[this._sceneArray.length - 1];
+    this._sceneArray.push(newScene)
+    if (activeScene) {
+      this.activeSceneName.value = newScene.collection.name
+    }
   }
 
   setActiveSceneByName(name: string) {
-    const i = this._sceneArray.findIndex(scene => scene.collection.name === name);
-    if (i === -1) {
-      throw new Error(`Scene with name "${name}" not found.`);
-    }
-    const [scene] = this._sceneArray.splice(i, 1);
-    this._sceneArray.push(scene);
+    const scene = this._sceneArray.find(scene => scene.collection.name === name)
+    if (!scene) throw new Error(`Scene "${name}" not found.`)
+    this.activeSceneName.value = name
   }
 
   deleteSceneByName(name: string) {
@@ -35,7 +37,18 @@ class SceneManager {
     }
     this._sceneArray[i].clearScene();
   }
-}
 
-const sceneManager = new SceneManager();
-export default sceneManager;
+  getActiveScene() {
+    return this._sceneArray.find(scene => scene.collection.name === this.activeSceneName.value)
+  }
+
+  getActiveSceneCollection() {
+    return this.getActiveScene()?.collection ?? null
+  }
+
+  getSceneCollections() {
+    return this._sceneArray.map(scene => scene.collection)
+  }
+}
+const sceneManager = new SceneManager()
+export default sceneManager

@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, onBeforeMount, nextTick } from 'vue';
 import Renderer from '@/core/Renderer';
 import sceneManager from '@/core/SceneManager';
-import Game from '@/scenes/game.scene';
+import Intro from '@/scenes/intro.scene';
+import Scene1 from '@/scenes/scene1.scene';
+import Scene2 from '@/scenes/scene2.scene';
+import Outro from '@/scenes/outro.scene';
+import ProgressBar from '@/components/ProgressBar.vue';
 
 const renderer = new Renderer();
 const viewport = ref<HTMLElement | null>(null);
@@ -13,13 +17,18 @@ const resizeHandler = () => {
   }
 };
 
+onBeforeMount(() => {
+  sceneManager.addScene(new Intro(), true);
+  sceneManager.addScene(new Scene1())
+  sceneManager.addScene(new Scene2());
+  sceneManager.addScene(new Outro());
+});
+
 onMounted(() => {
   window.addEventListener('resize', resizeHandler);
   resizeHandler(); // Set initial size
 
   nextTick(() => {
-    viewport.value;
-    sceneManager.addScene(new Game());
     renderer.init();
     renderer.render();
     renderer.target(viewport);
@@ -34,6 +43,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="relative w-full flex items-center justify-center h-full">
+    <ProgressBar />
     <div id="html-canvas"></div>
     <section class="w-full h-full overflow-hidden" ref="viewport"></section>
   </div>

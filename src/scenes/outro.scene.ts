@@ -18,7 +18,9 @@ class Game extends Scene {
     // curve: THREE.CatmullRomCurve3 | undefined;
 
     constructor() {
-        super("GameScene");
+        super();
+        this.collection.name = "OutroScene";
+        this.collection.base = "outro";
     }
 
     override async load(): Promise<void> {
