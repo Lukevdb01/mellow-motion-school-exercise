@@ -22,7 +22,7 @@ interface Particle {
 }
 
 function createParticles(textLength: number, width: number, height: number) {
-  const count = 1000 + textLength * 10;
+  const count = 1000 + textLength * 15;
   particles = [];
   for (let i = 0; i < count; i++) {
     const radius = 6 + Math.random() * 8;
