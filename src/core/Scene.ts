@@ -1,6 +1,21 @@
 import * as THREE from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+async function loadShader(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Failed to load shader: ${url}`);
+  return await response.text();
+}
+
+const toonMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+        lightDirection: { value: new THREE.Vector3(0.5, 1, 0.75).normalize() },
+        baseColor: { value: new THREE.Color(0xffffff) } // Wordt overschreven door vertex kleuren of texture
+    },
+    vertexShader: await loadShader('shaders/vertex.glsl'),
+    fragmentShader: await loadShader('shaders/fragment.glsl'),
+});
+
 class Scene {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera | null = null;
@@ -12,11 +27,11 @@ class Scene {
         name: "DefaultScene",
         base: "default-scene",
     };
-    
+
     load(): void {
         this.htmlCanvas = document.getElementById('html-canvas');
     }
-    update(): void {}
+    update(): void { }
 
     constructor() {
         // Initialize the scene and properties
@@ -41,6 +56,8 @@ class Scene {
                             mesh.castShadow = true;
                             mesh.receiveShadow = true;
                             mesh.frustumCulled = true;
+                            mesh.material = toonMaterial; // zie toonMaterial hieronder
+                            mesh.material.needsUpdate = true;
                         }
                     });
                     this.scene.add(model);
