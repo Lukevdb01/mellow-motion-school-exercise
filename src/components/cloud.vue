@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="cloud-speech-bubble">
+  <div class="cloud-speech-bubble cursor-pointer ">
     <div class="cloud-content">
       <p class="scribble-text">{{ props.text }}</p>
     </div>
@@ -121,7 +121,7 @@ const props = defineProps<{
   position: relative;
   align-items: center;
   justify-content: center;
-  z-index: 0;
+  z-index: 40;
 }
 
 .scribble-text {
@@ -131,5 +131,10 @@ const props = defineProps<{
   margin: 0;
   padding: 0;
   transform: rotate(-2deg);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
 }
 </style>

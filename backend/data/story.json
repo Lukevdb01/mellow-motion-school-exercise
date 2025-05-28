@@ -2,16 +2,16 @@
   "scene1": {
     "text": "Hoe voel je je nu?",
     "choices": [
-      { "text": "Hoe voel je je nu?", "next": "scene2", "position":  9},
-      { "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.", "next": "scene2", "position": 1},
-      { "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken. ", "next": "scene2", "position": 2}
+      { "text": "Hoe voel je je nu?", "next": "scene2", "position":  9, "scene3D": "Scene1"},
+      { "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.", "next": "scene2", "position": 1, "scene3D": "Scene1"},
+      { "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken. ", "next": "scene2", "position": 2, "scene3D": "Scene1"}
     ]
   },
   "scene2": {
     "text": "",
     "choices": [
       { "text": "Hoofd", "position": 3},
-      { "text": "Ogen", "position": 4, "scene3D": "Scene1"},
+      { "text": "Ogen", "position": 4},
       { "text": "Neus", "position":  9}
     ]
   }

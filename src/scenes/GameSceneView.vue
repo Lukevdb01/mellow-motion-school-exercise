@@ -2,11 +2,13 @@
 import { ref, onMounted } from 'vue'
 import Cloud from '@/components/cloud.vue'
 import sceneManager from "@/core/SceneManager";
-import Dialog from '@/components/dialog.vue' // Assuming Dialog is a Vue component
+import Dialog from '@/components/dialog.vue'
+import EyelidBlink from "@/components/EyelidBlink.vue";
 
 const scene = ref<any>({}); // Use 'any' for now, or define a more specific interface for scene
 const currentSceneId = ref('scene1');
 const loading = ref(false);
+const showBlink = ref(false);
 
 const toggleQuestion = ref(false);
 
@@ -29,20 +31,16 @@ const loadScene = async (id) => {
   }
 }
 
-const submitChoice = async (index) => {
+const submitChoice = async (index: number) => {
   const choice = scene.value.choices[index];
+
   if (choice.scene3D) {
-    loading.value = true;                           // optional - shows spinner
-    try {
-      sceneManager.setActiveSceneByName(choice.scene3D); // ← pass the name
-      toggleQuestion.value = false;                 // hide the dialog window
-    } finally {
-      loading.value = false;
-    }
-    return;                                         // stop here
+    showBlink.value = true;
+    sceneManager.setActiveSceneByName(choice.scene3D);   // show Scene1
+    toggleQuestion.value = false;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
     const res = await fetch('/api/backend/answer-question', {
       method: 'POST',
@@ -52,20 +50,22 @@ const submitChoice = async (index) => {
         choiceIndex: index,
       }),
     });
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    const responseData = await res.json();
-    scene.value = responseData;
-    // Assuming the response structure might be { "newSceneId": { "text": "...", "choices": [...] } }
-    // Adjust this based on your actual backend response for currentSceneId
-    currentSceneId.value = Object.keys(scene.value)[0] || currentSceneId.value;
+
+    const nextScene = await res.json();
+    scene.value         = nextScene;
+    currentSceneId.value = Object.keys(nextScene)[0]
+        ?? currentSceneId.value;
   } catch (err) {
     console.error('Failed to submit choice:', err);
     scene.value = { text: 'Something went wrong.' };
   } finally {
     loading.value = false;
   }
+};
+
+const blinkFinished = () => {
+  showBlink.value = false;
+  toggleQuestion.value = true;
 }
 
 onMounted(() => {
@@ -82,7 +82,7 @@ onMounted(() => {
 
 <template>
   <div ref="event" class="w-screen h-screen fixed font-barlow left-0 top-0 flex flex-col justify-center items-center">
-
+    <EyelidBlink v-model="showBlink" @blinkFinished="blinkFinished"/>
     <div
       v-if="!toggleQuestion && scene.text"
       v-motion
