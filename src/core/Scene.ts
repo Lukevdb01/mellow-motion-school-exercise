@@ -1,11 +1,15 @@
 import * as THREE from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-async function loadShader(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to load shader: ${url}`);
-  return await response.text();
+interface ShaderLoader {
+    (url: string): Promise<string>;
 }
+
+const loadShader: ShaderLoader = async function loadShader(url: string): Promise<string> {
+    const response: Response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to load shader: ${url}`);
+    return await response.text();
+};
 
 const toonMaterial = new THREE.ShaderMaterial({
     uniforms: {

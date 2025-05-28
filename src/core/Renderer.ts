@@ -13,7 +13,12 @@ class Renderer {
     init() {
         // Initialize the renderer
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        activeScene = sceneManager.getActiveScene();
+        const scene = sceneManager.getActiveScene();
+        if (scene) {
+            activeScene = scene;
+        } else {
+            throw new Error('No active scene found.');
+        }
 
         activeScene.load();
     }
@@ -35,8 +40,9 @@ class Renderer {
 render() {
     requestAnimationFrame(() => this.render());
 
-    if (activeScene !== sceneManager.getActiveScene()) {
-        activeScene = sceneManager.getActiveScene();
+    const currentScene = sceneManager.getActiveScene();
+    if (activeScene !== currentScene && currentScene) {
+        activeScene = currentScene;
         activeScene.load();
     }
 
