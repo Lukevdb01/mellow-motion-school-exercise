@@ -18,7 +18,7 @@
   };
 
   const startPhoneScene = () => {
-      phoneScene.value = true;
+    goToGameContainer()
       showBlink.value = false;
   };
 
@@ -44,10 +44,5 @@
         </div>
       </div>
       <EyelidBlink v-model="showBlink" @blinkFinished="startPhoneScene"/>
-      <div v-if="phoneScene" class="flex flex-col items-center justify-center gap-4">
-        <div class="bg-gray-800 rounded h-96 w-56 cursor-pointer">
-        </div>
-        <button @click="goToGameContainer" class="fixed bottom-10 right-10 cursor-pointer bg-gray-800 px-6 py-4">Skip</button>
-      </div>
     </section>
   </template>

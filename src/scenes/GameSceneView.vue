@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import Cloud from '@/components/cloud.vue'
 import Dialog from '@/components/dialog.vue'
+import sceneManager from "@/core/SceneManager";
 
 const scene = ref({});
 const currentSceneId = ref('scene1');
@@ -24,6 +25,18 @@ const loadScene = async (id) => {
 }
 
 const submitChoice = async (index) => {
+  const choice = scene.value.choices[index];
+  if (choice.scene3D) {
+    loading.value = true;                           // optional - shows spinner
+    try {
+      sceneManager.setActiveSceneByName(choice.scene3D); // ← pass the name
+      toggleQuestion.value = false;                 // hide the dialog window
+    } finally {
+      loading.value = false;
+    }
+    return;                                         // stop here
+  }
+
   loading.value = true
   try {
     const res = await fetch('/api/backend/answer-question', {
@@ -51,7 +64,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="event" class="w-full h-screen fixed font-barlow left-0 top-0 flex flex-col justify-center items-center">
+  <div ref="event" class="w-screen h-screen fixed font-barlow left-0 top-0 flex flex-col justify-center items-center">
     <!-- Display the scene text -->
     <div class="absolute top-52" v-if="!toggleQuestion">
       <p class="text-5xl">{{ scene.text }}</p>
@@ -61,13 +74,61 @@ onMounted(() => {
     </Dialog>
 
     <!-- Clouds for choices -->
-    <div class="flex justify-center gap-12">
+    <div class="absolute grid grid-cols-3 grid-rows-3 place-items-center h-full px-8 w-screen">
       <Cloud
           v-for="(choice, index) in scene.choices"
           :key="index"
           :text="choice.text"
+          :class="'grid-' + (choice.position ?? index + 1)"
           @click="submitChoice(index)"
       />
     </div>
   </div>
 </template>
+
+<style scoped>
+.grid-9 {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+.grid-8{
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.grid-7 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.grid-6 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.grid-5 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.grid-4 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.grid-3 {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.grid-2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.grid-1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+</style>

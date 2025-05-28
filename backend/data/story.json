@@ -1,92 +1,18 @@
 {
   "scene1": {
-    "text": "You wake up in a forest. What do you do?",
+    "text": "Hoe voel je je nu?",
     "choices": [
-      { "text": "Look around", "next": "scene2" },
-      { "text": "Go back to sleep", "next": "scene3" },
-      { "text": "Yell for help", "next": "scene4" }
+      { "text": "Hoe voel je je nu?", "next": "scene2", "position":  9},
+      { "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.", "next": "scene2", "position": 1},
+      { "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken. ", "next": "scene2", "position": 2}
     ]
   },
   "scene2": {
-    "text": "You find a path. Do you follow it?",
+    "text": "",
     "choices": [
-      { "text": "Follow the path", "next": "scene5" },
-      { "text": "Ignore the path", "next": "scene6" },
-      { "text": "Sit down on the path", "next": "scene7" }
-    ]
-  },
-  "scene3": {
-    "text": "You fall back asleep. You dream of adventures...",
-    "choices": [
-      { "text": "Wake up", "next": "scene1" }
-    ]
-  },
-  "scene4": {
-    "text": "You yell for help but no one answers. You feel alone.",
-    "choices": [
-      { "text": "Keep yelling", "next": "scene2" },
-      { "text": "Stop yelling and explore", "next": "scene6" }
-    ]
-  },
-  "scene5": {
-    "text": "You follow the path and see a beautiful waterfall.",
-    "choices": [
-      { "text": "Approach the waterfall", "next": "scene8" },
-      { "text": "Turn around and leave", "next": "scene9" }
-    ]
-  },
-  "scene6": {
-    "text": "You ignore the path and venture off into the forest.",
-    "choices": [
-      { "text": "Keep walking", "next": "scene10" },
-      { "text": "Sit and rest", "next": "scene7" }
-    ]
-  },
-  "scene7": {
-    "text": "You sit and rest, feeling calm. What will you do next?",
-    "choices": [
-      { "text": "Stand up and explore", "next": "scene6" },
-      { "text": "Take a nap", "next": "scene3" }
-    ]
-  },
-  "scene8": {
-    "text": "You get close to the waterfall and feel the mist on your face.",
-    "choices": [
-      { "text": "Go back", "next": "scene5" },
-      { "text": "Jump into the water", "next": "scene11" }
-    ]
-  },
-  "scene9": {
-    "text": "You walk away from the waterfall, continuing your journey.",
-    "choices": [
-      { "text": "Follow another path", "next": "scene6" }
-    ]
-  },
-  "scene10": {
-    "text": "You find a beautiful clearing in the forest.",
-    "choices": [
-      { "text": "Sit and enjoy the view", "next": "scene7" },
-      { "text": "Keep walking", "next": "scene5" }
-    ]
-  },
-  "scene11": {
-    "text": "You jump into the water and swim to the other side.",
-    "choices": [
-      { "text": "Climb out of the water", "next": "scene12" },
-      { "text": "Swim further", "next": "scene13" }
-    ]
-  },
-  "scene12": {
-    "text": "You climb out of the water, feeling refreshed.",
-    "choices": [
-      { "text": "Explore the new area", "next": "scene14" }
-    ]
-  },
-  "scene13": {
-    "text": "You swim further but the water is getting colder.",
-    "choices": [
-      { "text": "Swim back", "next": "scene11" },
-      { "text": "Keep swimming", "next": "scene15" }
+      { "text": "Hoofd", "position": 3},
+      { "text": "Ogen", "position": 4, "scene3D": "Scene1"},
+      { "text": "Neus", "position":  9}
     ]
   }
 }

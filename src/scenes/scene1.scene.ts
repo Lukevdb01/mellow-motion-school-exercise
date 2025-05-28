@@ -25,7 +25,6 @@ class Game extends Scene {
 
     override async load(): Promise<void> {
         super.load();
-        this.mountUI();
         this.environment();
 
         if (!this.camera /* || !this.curve */) return;
@@ -66,27 +65,6 @@ class Game extends Scene {
         const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
         const line = new THREE.Line(curveGeometry, curveMaterial);
         this.scene.add(line);
-    }
-
-    mountUI() {
-        const existingContainer = document.getElementById('vue-ui');
-        if (existingContainer) {
-            existingContainer.remove();
-        }
-
-        const container = document.createElement('div');
-        container.id = 'vue-ui';
-        container.style.position = 'absolute';
-        container.style.top = '0';
-        container.style.left = '10px';
-        container.style.zIndex = '100';
-
-        document.body.appendChild(container);
-
-        const vnode = h(GameSceneView);
-        vnode.appContext = app._context;
-
-        render(vnode, container);
     }
 }
 export default Game;
