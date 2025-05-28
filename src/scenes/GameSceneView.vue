@@ -87,7 +87,7 @@ onMounted(() => {
       v-if="!toggleQuestion && scene.text"
       v-motion
       :initial="{ opacity: 0 }"
-      :enter="{ opacity: 1, transition: { delay: 2000, duration: 1000 } }"
+      :enter="{ opacity: 1, transition: { delay: 500, duration: 1000 } }"
       :leave="{ opacity: 0, transition: { duration: 500 } }"
       class="absolute top-52 text-center"
     >
@@ -97,14 +97,14 @@ onMounted(() => {
     <Dialog
       v-if="toggleQuestion"
       v-motion-fade
-      class="absolute bottom-8 left-8"
+      class="absolute bottom-8 z-10 left-8"
     >
       <p>{{ scene.text }}</p>
     </Dialog>
 
     <div v-motion
       :initial="{ opacity: 0 }"
-      :enter="{ opacity: 1, transition: { delay: 3000, duration: 1000 } }"
+      :enter="{ opacity: 1, transition: { delay: 1000, duration: 1000 } }"
       :leave="{ opacity: 0, transition: { duration: 500 } }" class="absolute grid grid-cols-3 grid-rows-3 place-items-center h-full px-8 w-screen">
       <Cloud
         v-for="(choice, index) in scene.choices"
