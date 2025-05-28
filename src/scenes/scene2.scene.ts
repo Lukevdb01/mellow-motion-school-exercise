@@ -69,6 +69,11 @@ class Game extends Scene {
     }
 
     mountUI() {
+        const existingContainer = document.getElementById('vue-ui');
+        if (existingContainer) {
+            existingContainer.remove();
+        }
+        // Create a new container for the Vue component
         const container = document.createElement('div');
         container.id = 'vue-ui';
         container.style.position = 'absolute';
