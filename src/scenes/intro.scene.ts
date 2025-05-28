@@ -14,6 +14,7 @@ class Game extends Scene {
         new THREE.Vector3(10, 0, 4),
         new THREE.Vector3(15, 0, 6),
     ];
+    curve?: THREE.CatmullRomCurve3;
 
     // splineFollowCamera: splineCamera | undefined;
     // curve: THREE.CatmullRomCurve3 | undefined;
@@ -58,8 +59,10 @@ class Game extends Scene {
 
     environment() {
         this.scene.background = new THREE.Color(0x87CEEB);
-        this.camera.position.set(0, 20, 40);
-        this.camera.lookAt(0, 15, 0);
+        if (this.camera) {
+            this.camera.position.set(0, 20, 40);
+            this.camera.lookAt(0, 15, 0);
+        }
 
         const geometry = new THREE.PlaneGeometry(100, 100);
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
