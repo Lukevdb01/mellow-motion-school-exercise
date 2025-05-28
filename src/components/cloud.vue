@@ -1,130 +1,135 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue';
-
 const props = defineProps<{
   text: string
 }>();
-
-const canvasRef = ref<HTMLCanvasElement | null>(null);
-let particles: Particle[] = [];
-let animationFrameId: number;
-let hovering = false;
-
-interface Particle {
-  x: number;
-  y: number;
-  radius: number;
-  baseX: number;
-  baseY: number;
-  vx: number;
-  vy: number;
-  opacity: number;
-}
-
-function createParticles(textLength: number, width: number, height: number) {
-  const count = 1000 + textLength * 15;
-  particles = [];
-  for (let i = 0; i < count; i++) {
-    const radius = 6 + Math.random() * 8;
-    const x = Math.random() * width;
-    const y = Math.random() * height;
-    particles.push({
-      x,
-      y,
-      baseX: x,
-      baseY: y,
-      radius,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      opacity: 0.05 + Math.random() * 0.1,
-    });
-  }
-}
-
-function animate(ctx: CanvasRenderingContext2D, width: number, height: number) {
-  ctx.clearRect(0, 0, width, height);
-  particles.forEach((p) => {
-    const dx = p.x - p.baseX;
-    const dy = p.y - p.baseY;
-    if (!hovering) {
-      p.x -= dx * 0.05;
-      p.y -= dy * 0.05;
-    } else {
-      p.vx += (Math.random() - 0.5) * 0.2;
-      p.vy += (Math.random() - 0.5) * 0.2;
-      p.x += p.vx;
-      p.y += p.vy;
-    }
-
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-    ctx.fill();
-  });
-
-  animationFrameId = requestAnimationFrame(() => animate(ctx, width, height));
-}
-
-function startAnimation() {
-  const canvas = canvasRef.value;
-  if (!canvas) return;
-
-  const width = 160 + props.text.length * 8;
-  const height = 100;
-  canvas.width = width;
-  canvas.height = height;
-
-  createParticles(props.text.length, width, height);
-  const ctx = canvas.getContext('2d');
-  if (ctx) {
-    animate(ctx, width, height);
-  }
-}
-
-function onCloudClick() {
-  console.log('Cloud clicked!');
-}
-
-onMounted(startAnimation);
-watch(() => props.text, startAnimation);
-onUnmounted(() => cancelAnimationFrame(animationFrameId));
 </script>
 
 <template>
-  <div
-      class="relative inline-block cursor-pointer"
-      :style="{
-      width: `${160 + props.text.length * 8}px`,
-      height: '100px',
-    }"
-      @mouseenter="hovering = true"
-      @mouseleave="hovering = false"
-      @click="onCloudClick"
-  >
-    <!-- Canvas background cloud -->
-    <canvas
-        ref="canvasRef"
-        class="absolute top-0 left-0 z-0 rounded-[50%_/_40%]"
-        style="width: 100%; height: 100%; pointer-events: auto;"
-    ></canvas>
-
-    <!-- Text -->
-    <div
-        class="absolute inset-0 flex items-center justify-center z-10 px-10 py-6 text-lg font-medium"
-        style="color: black;"
-    >
-      {{ text }}
+  <div class="cloud-speech-bubble">
+    <div class="cloud-content">
+      <p class="scribble-text">{{ props.text }}</p>
     </div>
+    <div class="speech-bubble-pointer"></div>
   </div>
 </template>
 
 <style scoped>
-canvas {
-  filter: blur(8px);
-  transition: all 0.3s ease;
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  25% {
+    transform: translateY(-5px) translateX(5px);
+  }
+
+  50% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  75% {
+    transform: translateY(5px) translateX(-5px);
+  }
+
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
 }
 
-.cloud:hover canvas {
-  transform: scale(1.05);
+@keyframes bubble-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cloud-speech-bubble {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 30px;
+  min-width: 40px;
+  max-width: clamp(220px, 80vw, 400px);
+  min-height: 40px;
+  margin: 20px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #333;
+  animation: float 10s ease-in-out infinite;
+  z-index: 1;
+}
+
+.cloud-speech-bubble::before,
+.cloud-speech-bubble::after {
+  content: "";
+  background-color: #fff;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  z-index: 1;
+  animation: bubble-pulse 3s ease-in-out infinite;
+}
+
+.cloud-speech-bubble::before {
+  width: 44px;
+  height: 44px;
+  top: -12px;
+  left: 28px;
+  box-shadow: -50px 30px 0 -12px #fff;
+  animation-delay: 0.3s;
+}
+
+.cloud-speech-bubble::after {
+  bottom: -10px;
+  right: 10%;
+  width: 30px;
+  height: 30px;
+  box-shadow: 40px -34px 0 0 #fff,
+    -28px -6px 0 -2px #fff,
+    -24px 17px 0 -6px #fff,
+    -5px 25px 0 -10px #fff;
+  animation-delay: 0.8s;
+}
+
+.speech-bubble-pointer {
+  position: absolute;
+  bottom: -10px;
+  left: 20%;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 20px solid #fff;
+  z-index: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.cloud-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.scribble-text {
+  font-family: cursive;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  transform: rotate(-2deg);
 }
 </style>

@@ -1,31 +1,15 @@
-<template>
-  <div class="w-full h-full fixed left-0 top-0 flex flex-col justify-center items-center">
-    <!-- Display the scene text -->
-    <div class="mb-12 text-center px-4">
-      <p class="text-2xl font-bold text-white bg-black/25 px-6 py-3 rounded-xl shadow">
-        {{ scene.text }}
-      </p>
-    </div>
-
-    <!-- Clouds for choices -->
-    <div class="flex justify-center gap-12">
-      <Cloud
-          v-for="(choice, index) in scene.choices"
-          :key="index"
-          :text="choice.text"
-          @click="submitChoice(index)"
-      />
-    </div>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import Cloud from '@/components/cloud.vue'
+import Dialog from '@/components/dialog.vue'
 
-const scene = ref({})
-const currentSceneId = ref('scene1')
-const loading = ref(false)
+const scene = ref({});
+const currentSceneId = ref('scene1');
+const loading = ref(false);
+
+const toggleQuestion = ref(false);
+
+const event = ref<HTMLElement | null>(null);
 
 const loadScene = async (id) => {
   loading.value = true
@@ -59,6 +43,31 @@ const submitChoice = async (index) => {
 }
 
 onMounted(() => {
-  loadScene(currentSceneId.value)
+  loadScene(currentSceneId.value);
+  event.value?.addEventListener('click', () => {
+    toggleQuestion.value = true;
+  });
 })
 </script>
+
+<template>
+  <div ref="event" class="w-full h-screen fixed font-barlow left-0 top-0 flex flex-col justify-center items-center">
+    <!-- Display the scene text -->
+    <div class="absolute top-52" v-if="!toggleQuestion">
+      <p class="text-5xl">{{ scene.text }}</p>
+    </div>
+    <Dialog v-if="toggleQuestion" class="absolute bottom-8 left-8">
+      <p>{{ scene.text }}</p>
+    </Dialog>
+
+    <!-- Clouds for choices -->
+    <div class="flex justify-center gap-12">
+      <Cloud
+          v-for="(choice, index) in scene.choices"
+          :key="index"
+          :text="choice.text"
+          @click="submitChoice(index)"
+      />
+    </div>
+  </div>
+</template>

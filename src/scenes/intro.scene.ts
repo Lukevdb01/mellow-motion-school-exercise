@@ -35,6 +35,7 @@ class Game extends Scene {
         // this.splineFollowCamera.set(0, 0, 5);
 
         const gltf = await this.addMesh('models/Memo.glb');
+        gltf.scene.position.set(0, 10, 0);
 
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
@@ -42,10 +43,10 @@ class Game extends Scene {
             });
         }
 
-        setTimeout(() => {
-            sceneManager.deleteSceneByName('IntroScene');
-            sceneManager.setActiveSceneByName('Scene1');
-        }, 5000);
+        // setTimeout(() => {
+        //     sceneManager.deleteSceneByName('IntroScene');
+        //     sceneManager.setActiveSceneByName('Scene1');
+        // }, 5000);
     }
 
     override async update(): Promise<void> {

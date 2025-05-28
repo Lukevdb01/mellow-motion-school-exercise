@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.font-barlow {
+  font-family: "Barlow", sans-serif;
+}
