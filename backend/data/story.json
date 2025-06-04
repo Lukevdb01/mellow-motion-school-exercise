@@ -1,18 +1,65 @@
 {
-  "scene1": {
+  "dialog1": {
     "text": "Hoe voel je je nu?",
     "choices": [
-      { "text": "Hoe voel je je nu?", "next": "scene2", "position":  9, "scene3D": "Scene1"},
-      { "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.", "next": "scene2", "position": 1, "scene3D": "Scene1"},
-      { "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken. ", "next": "scene2", "position": 2, "scene3D": "Scene1"}
+      {
+        "text": "Ik voel me rot door al de negatieve video’s die ik zojuist heb gekeken.",
+        "next": "dialog2",
+        "position": 9,
+        "scene3D": "Scene1"
+      },
+      {
+        "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.",
+        "next": "dialog2",
+        "position": 1,
+        "scene3D": "Scene1"
+      },
+      {
+        "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken.",
+        "next": "dialog2",
+        "position": 2,
+        "scene3D": "Scene1"
+      }
     ]
   },
-  "scene2": {
+  "dialog2": {
     "text": "",
     "choices": [
-      { "text": "Hoofd", "position": 3},
-      { "text": "Ogen", "position": 4},
-      { "text": "Neus", "position":  9}
+      {
+        "text": "Hoofd",
+        "position": 3,
+        "next": "dialog3"
+      },
+      {
+        "text": "Ogen",
+        "position": 4,
+        "next": "dialog3"
+      },
+      {
+        "text": "Neus",
+        "position": 9,
+        "next": "dialog3"
+      }
+    ]
+  },
+  "dialog3": {
+    "text": "Klik op de wolk om naar de spiegel te lopen.",
+    "choices": [
+      {
+        "text": "Lopen",
+        "position": 5,
+        "function": "walkToMirror"
+      }
+    ]
+  },
+  "dialog4": {
+    "text": "Je staat voor de spiegel",
+    "choices": [
+      {
+        "text": "Klik om je zelf te verzorgen",
+        "position": 6,
+        "function": "Verzorging"
+      }
     ]
   }
 }

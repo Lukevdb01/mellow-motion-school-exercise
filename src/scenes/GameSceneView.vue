@@ -6,7 +6,7 @@ import Dialog from '@/components/dialog.vue'
 import EyelidBlink from "@/components/EyelidBlink.vue";
 
 const scene = ref<any>({}); // Use 'any' for now, or define a more specific interface for scene
-const currentSceneId = ref('scene1');
+const currentSceneId = ref('dialog1');
 const loading = ref(false);
 const showBlink = ref(false);
 
@@ -36,7 +36,7 @@ const submitChoice = async (index: number) => {
 
   if (choice.scene3D) {
     showBlink.value = true;
-    sceneManager.setActiveSceneByName(choice.scene3D);   // show Scene1
+    sceneManager.setActiveSceneByName(choice.scene3D);
     toggleQuestion.value = false;
   }
 
@@ -52,9 +52,8 @@ const submitChoice = async (index: number) => {
     });
 
     const nextScene = await res.json();
-    scene.value         = nextScene;
-    currentSceneId.value = Object.keys(nextScene)[0]
-        ?? currentSceneId.value;
+    scene.value = nextScene;
+    currentSceneId.value = choice.next ?? currentSceneId.value;  // ✅ set it directly
   } catch (err) {
     console.error('Failed to submit choice:', err);
     scene.value = { text: 'Something went wrong.' };
@@ -65,7 +64,7 @@ const submitChoice = async (index: number) => {
 
 const blinkFinished = () => {
   showBlink.value = false;
-  toggleQuestion.value = true;
+  toggleQuestion.value = false;
 }
 
 onMounted(() => {
@@ -102,7 +101,9 @@ onMounted(() => {
       <p>{{ scene.text }}</p>
     </Dialog>
 
-    <div v-motion
+    <div
+      v-if="!showBlink"
+        v-motion
       :initial="{ opacity: 0 }"
       :enter="{ opacity: 1, transition: { delay: 1000, duration: 1000 } }"
       :leave="{ opacity: 0, transition: { duration: 500 } }" class="absolute grid grid-cols-3 grid-rows-3 place-items-center h-full px-8 w-screen">
