@@ -99,7 +99,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="event" class="w-screen h-screen fixed font-barlow left-0 top-0 flex flex-col justify-center items-center">
+  <div ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
     <EyelidBlink v-model="showBlink" @blinkFinished="blinkFinished"/>
     <div
       v-if="!toggleQuestion && scene.text"
@@ -109,8 +109,8 @@ onMounted(() => {
       :leave="{ opacity: 0, transition: { duration: 500 } }"
       class="absolute top-52 text-center w-[80vw]"
     >
-      <p class="text-5xl font-barlow font-medium">{{ scene.text }}</p>
-      <p v-if="scene.mini_title" class="text-3xl font-barlow">{{ scene.mini_title }}</p>
+      <p class="text-5xl font-cursive font-medium">{{ scene.text }}</p>
+      <p v-if="scene.mini_title" class="text-3xl font-cursive">{{ scene.mini_title }}</p>
     </div>
 
     <Dialog
