@@ -41,10 +41,6 @@ class Scene {
         // Initialize the scene and properties
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        const light: THREE.DirectionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 10, 10);
-        this.scene.add(light);
     }
 
     addMesh(url: string): Promise<GLTF> {
@@ -60,8 +56,8 @@ class Scene {
                             mesh.castShadow = true;
                             mesh.receiveShadow = true;
                             mesh.frustumCulled = true;
-                            mesh.material = toonMaterial; // zie toonMaterial hieronder
-                            mesh.material.needsUpdate = true;
+                            // mesh.material = toonMaterial; zie toonMaterial hieronder
+                            // mesh.material.needsUpdate = true;
                         }
                     });
                     this.scene.add(model);

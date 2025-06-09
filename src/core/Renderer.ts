@@ -20,6 +20,11 @@ class Renderer {
             throw new Error('No active scene found.');
         }
 
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(10, 20, 10);
+        activeScene.scene.add(light);
+        activeScene.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
+
         activeScene.load();
     }
 
@@ -56,11 +61,6 @@ class Renderer {
         if (activeScene.camera && this.renderer) {
             this.renderer.render(activeScene.scene, activeScene.camera);
         }
-
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 20, 10);
-        activeScene.scene.add(light);
-        activeScene.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
     }
 
 }
