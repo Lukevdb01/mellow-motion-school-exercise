@@ -1,25 +1,6 @@
 import * as THREE from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-interface ShaderLoader {
-    (url: string): Promise<string>;
-}
-
-const loadShader: ShaderLoader = async function loadShader(url: string): Promise<string> {
-    const response: Response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to load shader: ${url}`);
-    return await response.text();
-};
-
-const toonMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-        lightDirection: { value: new THREE.Vector3(0.5, 1, 0.75).normalize() },
-        baseColor: { value: new THREE.Color(0xffffff) } // Wordt overschreven door vertex kleuren of texture
-    },
-    vertexShader: await loadShader('shaders/vertex.glsl'),
-    fragmentShader: await loadShader('shaders/fragment.glsl'),
-});
-
 class Scene {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera | null = null;
