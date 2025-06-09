@@ -1,7 +1,7 @@
 import Scene from "@/core/Scene";
 import * as THREE from 'three';
 import GameSceneView from '@/scenes/GameSceneView.vue';
-import {render, h} from "vue";
+import { render, h } from "vue";
 import app from "@/main";
 
 // import splineCamera from "@/core/SplineCamera";
@@ -56,6 +56,11 @@ class Game extends Scene {
             this.camera.position.set(0, 20, 40);
             this.camera.lookAt(0, 15, 0);
         }
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(10, 20, 10);
+        this.scene.add(light);
+        this.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
 
         const geometry = new THREE.PlaneGeometry(100, 100);
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });

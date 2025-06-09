@@ -1,8 +1,6 @@
 import Scene from "@/core/Scene";
 import * as THREE from 'three';
-import GameSceneView from '@/scenes/GameSceneView.vue';
-import {render, h} from "vue";
-import app from "@/main";
+import Mirror from "@/objects/mirror";
 
 // import splineCamera from "@/core/SplineCamera";
 
@@ -33,13 +31,19 @@ class Game extends Scene {
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
-        const gltf = await this.addMesh('models/memo.glb');
+        const room = await this.addMesh('models/Memo.glb');
+        room.scene.position.set(0, 6, 5);
+
+        const gltf = await this.addMesh('models/popetje.glb');
 
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
             });
         }
+
+        gltf.scene.scale.set(15, 15, 15);
+
     }
 
     override async update(): Promise<void> {
@@ -57,6 +61,11 @@ class Game extends Scene {
             this.camera.lookAt(0, 15, 0);
         }
 
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(10, 20, 10);
+        this.scene.add(light);
+        this.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
+
         const geometry = new THREE.PlaneGeometry(100, 100);
         const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
         const plane = new THREE.Mesh(geometry, material);
@@ -68,6 +77,8 @@ class Game extends Scene {
         const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
         const line = new THREE.Line(curveGeometry, curveMaterial);
         this.scene.add(line);
+
+        Mirror.use(this.scene);
     }
 }
 export default Game;
