@@ -1,66 +1,105 @@
 {
   "dialog1": {
-    "text": "Hoe voel je je nu?",
+    "text": "Welkom bij de zelfzorg ervaring.",
+    "mini_title": "Deze ervaring is ontworpen om je te helpen bij het omgaan met negatieve gedachten en gevoelens.",
     "choices": [
       {
-        "text": "Ik voel me rot door al de negatieve video’s die ik zojuist heb gekeken.",
+        "text": "Start de ervaring",
         "next": "dialog2",
-        "position": 9,
-        "scene3D": "Scene1"
-      },
-      {
-        "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.",
-        "next": "dialog2",
-        "position": 1,
-        "scene3D": "Scene1"
-      },
-      {
-        "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken.",
-        "next": "dialog2",
-        "position": 2,
+        "position": 8,
         "scene3D": "Scene1"
       }
     ]
   },
   "dialog2": {
+    "text": "Hoe voel je je nu?",
+    "choices": [
+      {
+        "text": "Ik voel me rot door al de negatieve video’s die ik zojuist heb gekeken.",
+        "next": "dialog3",
+        "position": 9,
+        "scene3D": "Scene2"
+      },
+      {
+        "text": "Ik voel ongemakkelijk in mijn lichaam momenteel.",
+        "next": "dialog3",
+        "position": 1,
+        "scene3D": "Scene2"
+      },
+      {
+        "text": "Ik voel me niet fijn, maar de laatste video zet mij wel aan het denken.",
+        "next": "dialog3",
+        "position": 2,
+        "scene3D": "Scene2"
+      }
+    ]
+  },
+  "dialog3": {
     "text": "",
     "choices": [
       {
         "text": "Hoofd",
         "position": 3,
-        "next": "dialog3"
+        "next": "dialog4"
       },
       {
         "text": "Ogen",
         "position": 4,
-        "next": "dialog3"
+        "next": "dialog4"
       },
       {
         "text": "Neus",
         "position": 9,
-        "next": "dialog3"
+        "next": "dialog4"
       }
     ]
   },
-  "dialog3": {
+  "dialog4": {
     "text": "Klik op de wolk om naar de spiegel te lopen.",
     "choices": [
       {
         "text": "Lopen",
         "position": 5,
-        "next": "dialog4",
+        "next": "dialog5",
         "function": "walkToMirror"
       }
     ]
   },
-  "dialog4": {
+  "dialog5": {
     "text": "Je staat voor de spiegel",
     "choices": [
       {
         "text": "Klik om je zelf te verzorgen",
         "position": 6,
-        "function": "Verzorging"
+        "function": "Verzorging",
+        "next": "dialog6",
+        "scene3D": "OutroScene"
       }
     ]
-  }
+  },
+    "dialog6": {
+        "text": "",
+        "choices": [
+        {
+            "text": "Ik ben misschien nog niet blij met hoe ik eruitzie, maar dat betekent niet dat ik voor altijd zo hoef te voelen",
+            "position": 1
+        },
+        {
+            "text": "M’n lijf doet z’n best, ook al voelt het soms alsof ik faal — ik hoef het niet meteen te haten",
+            "position": 2
+        },
+        {
+            "text": " Al die perfecte mensen online hebben ook hun dagen dat ze strugglen, ze laten het gewoon niet zien",
+            "position": 3
+        },
+        {
+            "text": "Ik hoef mezelf niet te faken met zelfliefde, maar misschien kan ik wel proberen iets minder hard te zijn voor mezelf.",
+            "position": 4
+        },
+          {
+            "text": "Eerlijk… zelfs als ik het nu niet voel, misschien verdien ik wél gewoon rust in m’n hoofd.",
+            "position": 5
+          }
+        ]
+    }
 }

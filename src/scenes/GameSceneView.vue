@@ -107,9 +107,10 @@ onMounted(() => {
       :initial="{ opacity: 0 }"
       :enter="{ opacity: 1, transition: { delay: 500, duration: 1000 } }"
       :leave="{ opacity: 0, transition: { duration: 500 } }"
-      class="absolute top-52 text-center"
+      class="absolute top-52 text-center w-[80vw]"
     >
       <p class="text-5xl font-barlow font-medium">{{ scene.text }}</p>
+      <p v-if="scene.mini_title" class="text-3xl font-barlow">{{ scene.mini_title }}</p>
     </div>
 
     <Dialog
