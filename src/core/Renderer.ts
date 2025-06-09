@@ -37,26 +37,31 @@ class Renderer {
 
     private clock = new THREE.Clock();
 
-render() {
-    requestAnimationFrame(() => this.render());
+    render() {
+        requestAnimationFrame(() => this.render());
 
-    const currentScene = sceneManager.getActiveScene();
-    if (activeScene !== currentScene && currentScene) {
-        activeScene = currentScene;
-        activeScene.load();
-    }
+        const currentScene = sceneManager.getActiveScene();
+        if (activeScene !== currentScene && currentScene) {
+            activeScene = currentScene;
+            activeScene.load();
+        }
 
-    // Update animation mixer
-    if (activeScene.mixer) {
-        const delta = this.clock.getDelta();
-        activeScene.mixer.update(delta); // Update animations
-    }
-    activeScene.update();
+        // Update animation mixer
+        if (activeScene.mixer) {
+            const delta = this.clock.getDelta();
+            activeScene.mixer.update(delta); // Update animations
+        }
+        activeScene.update();
 
-    if (activeScene.camera && this.renderer) {
-        this.renderer.render(activeScene.scene, activeScene.camera);
+        if (activeScene.camera && this.renderer) {
+            this.renderer.render(activeScene.scene, activeScene.camera);
+        }
+
+        const light = new THREE.DirectionalLight(0xffffff, 1);
+        light.position.set(10, 20, 10);
+        activeScene.scene.add(light);
+        activeScene.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
     }
-}
 
 }
 export default Renderer;
