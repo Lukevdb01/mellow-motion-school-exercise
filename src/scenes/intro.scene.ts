@@ -1,9 +1,6 @@
 import Scene from "@/core/Scene";
+import Mirror from "@/objects/mirror";
 import * as THREE from 'three';
-import GameSceneView from '@/scenes/GameSceneView.vue';
-import {render, h} from "vue";
-import app from "@/main";
-import sceneManager from "@/core/SceneManager";
 
 // import splineCamera from "@/core/SplineCamera";
 
@@ -75,6 +72,8 @@ class Game extends Scene {
         const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
         const line = new THREE.Line(curveGeometry, curveMaterial);
         this.scene.add(line);
+
+        Mirror.use(this.scene);
     }
 
 }

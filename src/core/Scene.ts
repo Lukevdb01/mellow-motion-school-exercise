@@ -1,25 +1,6 @@
 import * as THREE from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-interface ShaderLoader {
-    (url: string): Promise<string>;
-}
-
-const loadShader: ShaderLoader = async function loadShader(url: string): Promise<string> {
-    const response: Response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to load shader: ${url}`);
-    return await response.text();
-};
-
-const toonMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-        lightDirection: { value: new THREE.Vector3(0.5, 1, 0.75).normalize() },
-        baseColor: { value: new THREE.Color(0xffffff) } // Wordt overschreven door vertex kleuren of texture
-    },
-    vertexShader: await loadShader('shaders/vertex.glsl'),
-    fragmentShader: await loadShader('shaders/fragment.glsl'),
-});
-
 class Scene {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera | null = null;
@@ -41,10 +22,6 @@ class Scene {
         // Initialize the scene and properties
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-        const light: THREE.DirectionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 10, 10);
-        this.scene.add(light);
     }
 
     addMesh(url: string): Promise<GLTF> {
@@ -60,8 +37,8 @@ class Scene {
                             mesh.castShadow = true;
                             mesh.receiveShadow = true;
                             mesh.frustumCulled = true;
-                            mesh.material = toonMaterial; // zie toonMaterial hieronder
-                            mesh.material.needsUpdate = true;
+                            // mesh.material = toonMaterial; zie toonMaterial hieronder
+                            // mesh.material.needsUpdate = true;
                         }
                     });
                     this.scene.add(model);
