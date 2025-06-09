@@ -31,6 +31,17 @@ const loadScene = async (id) => {
   }
 }
 
+const walkToMirror = () => {
+  console.log("Walking to the mirror...");
+  // Add any scene updates or animations here
+};
+
+const verzorging = () => {
+  console.log("Starting self-care routine...");
+  // Add any UI changes or animations here
+};
+
+
 const submitChoice = async (index: number) => {
   const choice = scene.value.choices[index];
 
@@ -38,6 +49,14 @@ const submitChoice = async (index: number) => {
     showBlink.value = true;
     sceneManager.setActiveSceneByName(choice.scene3D);
     toggleQuestion.value = false;
+  }
+
+  if (choice.function) {
+    if (choice.function === "walkToMirror") {
+      walkToMirror();
+    } else if (choice.function === "Verzorging") {
+      verzorging();
+    }
   }
 
   loading.value = true;

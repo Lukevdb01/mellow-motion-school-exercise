@@ -48,6 +48,7 @@
       {
         "text": "Lopen",
         "position": 5,
+        "next": "dialog4",
         "function": "walkToMirror"
       }
     ]
