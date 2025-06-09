@@ -1,6 +1,15 @@
 import * as THREE from 'three';
 import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+interface ScaleAnimation {
+    object: THREE.Object3D;
+    from: number;
+    to: number;
+    duration: number;
+    elapsed: number;
+    onComplete?: () => void;
+}
+
 class Scene {
     scene: THREE.Scene;
     camera: THREE.PerspectiveCamera | null = null;
@@ -13,10 +22,69 @@ class Scene {
         base: "default-scene",
     };
 
+    private scaleAnimations: ScaleAnimation[] = [];
+    private clock = new THREE.Clock();
+
+    public scaleTo(
+        object: THREE.Object3D,
+        targetScale: number,
+        duration: number = 2,
+        onComplete?: () => void
+    ): void {
+        const currentScale = object.scale.x; // Assumes uniform scale
+        this.scaleAnimations.push({
+            object,
+            from: currentScale,
+            to: targetScale,
+            duration,
+            elapsed: 0,
+            onComplete
+        });
+    }
+
+    scaleUpModel(
+        object: THREE.Object3D,
+        targetScale: number = 1.0,
+        duration: number = 2,
+        onComplete?: () => void
+    ): void {
+        this.scaleTo(object, targetScale, duration, onComplete);
+    }
+
+    scaleDownModel(
+        object: THREE.Object3D,
+        targetScale: number = 0.5,
+        duration: number = 2,
+        onComplete?: () => void
+    ): void {
+        this.scaleTo(object, targetScale, duration, onComplete);
+    }
+
     load(): void {
         this.htmlCanvas = document.getElementById('html-canvas');
     }
-    update(): void { }
+
+    update(): void {
+        const delta = this.clock.getDelta();
+
+        if (this.mixer) {
+            this.mixer.update(delta);
+        }
+
+        for (let i = this.scaleAnimations.length - 1; i >= 0; i--) {
+            const anim = this.scaleAnimations[i];
+            anim.elapsed += delta;
+
+            const progress = Math.min(anim.elapsed / anim.duration, 1);
+            const scale = THREE.MathUtils.lerp(anim.from, anim.to, progress);
+            anim.object.scale.setScalar(scale);
+
+            if (progress >= 1) {
+                if (anim.onComplete) anim.onComplete();
+                this.scaleAnimations.splice(i, 1);
+            }
+        }
+    }
 
     constructor() {
         // Initialize the scene and properties
