@@ -31,13 +31,57 @@ class Game extends Scene {
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
-        const gltf = await this.addMesh('models/memo.glb');
-
+        const gltf = await this.addMesh('models/popetje.glb');
+        this.poppetje = gltf.scene;
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
             });
         }
+
+        gltf.scene.scale.set(15, 15, 15);
+    }
+
+    poppetje: THREE.Object3D | null = null;
+    curveProgress = 0;
+
+    walkToMirrorStart() {
+        if (!this.curve) {
+            console.log("curve is not defined");
+            return;
+        }
+        if (!this.poppetje) {
+            console.log("poppetje is not defined");
+            return;
+        }
+        console.log("Starting walk to mirro2r...");
+
+        this.curveProgress = 0;
+        this.animateWalkToMirror();
+    }
+
+    animateWalkToMirror() {
+        if (!this.curve || !this.poppetje) return;
+
+        const speed = 0.0015; // adjust as needed
+        this.curveProgress += speed;
+
+        if (this.curveProgress >= 1) {
+            this.curveProgress = 1; // clamp to 1
+            return; // stop animation
+        }
+
+        const position = this.curve.getPoint(this.curveProgress);
+        const tangent = this.curve.getTangent(this.curveProgress);
+
+        this.poppetje.position.copy(position);
+
+        // Optional: face forward
+        const lookAt = position.clone().add(tangent);
+        this.poppetje.lookAt(lookAt);
+
+        // Animate again on the next frame
+        requestAnimationFrame(() => this.animateWalkToMirror());
     }
 
     override async update(): Promise<void> {
