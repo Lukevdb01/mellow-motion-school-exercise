@@ -27,31 +27,11 @@ class Game extends Scene {
 
         if (!this.camera) return;
 
-        this.camera.position.y = 15;
-        this.camera.position.x = 15;
-        this.camera.position.z = 15;
+        this.camera.position.y = 3;
+        this.camera.position.x = 1;
+        this.camera.position.z = 5;
 
-        // Load arms
-        const armGltf = await this.addMesh('models/Armen.glb');
-        this.arms = armGltf.scene;
-        this.arms.scale.set(15, 15, 15);
-        this.scene.add(this.arms); // ← make sure it's added to the scene
-
-        // Load phone
-        const phoneGltf = await this.addMesh('models/Telefoon.glb');
-        this.phone = phoneGltf.scene;
-        this.phone.scale.set(15, 15, 15);
-
-        // Attach phone to arms
-        this.arms.add(this.phone);
-        this.phone.position.set(0, -0.05, 0.15); // adjust to look like it's held
-
-        // Optional: Play any animations in phone model
-        if (this.mixer && phoneGltf.animations.length > 0) {
-            phoneGltf.animations.forEach((clip) => {
-                this.mixer!.clipAction(clip).play();
-            });
-        }
+        const phone = await this.addMesh('models/FirstPerson.glb');
     }
 
     override async update(): Promise<void> {
