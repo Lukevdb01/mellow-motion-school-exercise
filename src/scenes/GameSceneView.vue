@@ -14,6 +14,7 @@ const loading = ref(false);
 const showBlink = ref(false);
 const introNextSceneId = ref<string | null>(null);
 const introNextScene3D = ref<string | null>(null);
+const showEndScreen = ref(false);
 
 const toggleQuestion = ref(false);
 
@@ -22,7 +23,7 @@ const event = ref<HTMLElement | null>(null);
 const loadScene = async (id) => {
   loading.value = true
   try {
-    const res = await fetch(`/api/backend/scene/${id}`);
+    const res = await fetch(`https://api.lukevdbroek.nl/mellow-motion/backend/scene/${id}`);
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
@@ -51,6 +52,10 @@ const verzorging = () => {
   // Add any UI changes or animations here
 };
 
+const endExperience = () => {
+  showEndScreen.value = true;
+}
+
 
 const submitChoice = async (index: number) => {
   const choice = scene.value.choices[index];
@@ -76,12 +81,14 @@ const submitChoice = async (index: number) => {
       walkToMirror();
     } else if (choice.function === "Verzorging") {
       verzorging();
+    } else if (choice.function === "endExperience") {
+      endExperience();
     }
   }
 
   loading.value = true;
   try {
-    const res = await fetch('/api/backend/answer-question', {
+    const res = await fetch('https://api.lukevdbroek.nl/mellow-motion/backend/answer-question', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -193,6 +200,72 @@ onMounted(() => {
       />
     </div>
   </div>
+  <div
+      v-if="showEndScreen"
+      class="fixed inset-0 z-50 bg-white text-gray-900 overflow-y-auto px-6 py-12 flex justify-center items-start"
+  >
+    <div class="max-w-3xl w-full space-y-8 relative bg-white shadow-xl rounded-xl p-10">
+      <h1 class="text-5xl font-bold text-center text-black">Eindscherm</h1>
+
+      <p class="text-lg leading-relaxed">
+        Met dit project willen we de impact laten zien van schoonheidsidealen die op sociale platformen worden gepromoot.
+        Door het verhaal heen krijg je een inkijkje in de gedachtegang van ons personage — een gedachtegang die veel jongeren herkennen en delen.
+        We laten zien hoe de constante stroom aan beelden en boodschappen op sociale media blijft hangen in je hoofd, en ongemerkt je zelfbeeld en gedachten beïnvloedt.
+        Door dit inzichtelijk te maken, hopen we bewustzijn te creëren over hoe diep deze invloed kan gaan.
+      </p>
+
+      <div class="bg-gray-100 rounded-md p-6 space-y-4">
+        <p class="font-semibold text-lg">Herken jij de negatieve gevolgen van onrealistische beauty standards, of heb je behoefte aan ondersteuning? Praat erover!</p>
+
+        <div>
+          <h2 class="font-bold">Alles Oké? Supportlijn (18 t/m 24 jaar)</h2>
+          <ul class="list-disc list-inside ml-4">
+            <li>📞 0800-0450 (dagelijks van 14:00–22:00)</li>
+            <li>💬 Chat: <a href="https://www.allesoke.nl" class="text-blue-600 underline" target="_blank">www.allesoke.nl</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="font-bold">De Kindertelefoon (tot 18 jaar)</h2>
+          <ul class="list-disc list-inside ml-4">
+            <li>📞 0800-0432</li>
+            <li>💬 Chat: <a href="https://www.kindertelefoon.nl" class="text-blue-600 underline" target="_blank">www.kindertelefoon.nl</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="font-bold">Proud2Bme</h2>
+          <ul class="list-disc list-inside ml-4">
+            <li>🌐 <a href="https://www.proud2bme.nl" class="text-blue-600 underline" target="_blank">www.proud2bme.nl</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 rounded-md p-6">
+        <h3 class="font-bold text-xl mb-4">Team Mellow Motion</h3>
+        <ul class="list-disc list-inside space-y-1">
+          <li>Willemijn van Aspert – 3D-designer en karakter design</li>
+          <li>James Wang – 3D-designer en animator</li>
+          <li>Luuk Schaeffer – Illustrator en karakter design</li>
+          <li>Katja Belotchkina – Grafisch ontwerper, conceptueel bedenker en 3D support</li>
+          <li>Melissa Hellemons – Grafisch ontwerper en voorzitter en 3D support</li>
+          <li>Samed Bozaslan – Software developer</li>
+          <li>Luke van den Broek – Software developer</li>
+          <li>Job van der Wielen – Adviseur</li>
+        </ul>
+      </div>
+
+      <div class="text-center">
+        <a
+            href="/"
+            class="inline-block bg-black text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-gray-800 transition"
+        >
+          Klik om opnieuw te beginnen
+        </a>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>

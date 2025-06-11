@@ -6,7 +6,6 @@ import Intro from '@/scenes/intro.scene';
 import Scene1 from '@/scenes/scene1.scene';
 import Scene2 from '@/scenes/scene2.scene';
 import Outro from '@/scenes/outro.scene';
-import ProgressBar from '@/components/ProgressBar.vue';
 import GameSceneView from "@/scenes/GameSceneView.vue";
 
 const renderer = new Renderer();
@@ -44,7 +43,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="relative w-full flex items-center justify-center h-full">
-    <ProgressBar />
     <GameSceneView/>
     <section class="w-full h-full overflow-hidden" ref="viewport"></section>
   </div>

@@ -82,23 +82,28 @@
         "choices": [
         {
             "text": "Ik ben misschien nog niet blij met hoe ik eruitzie, maar dat betekent niet dat ik voor altijd zo hoef te voelen",
-            "position": 1
+            "position": 1,
+            "function": "endExperience"
         },
         {
             "text": "M’n lijf doet z’n best, ook al voelt het soms alsof ik faal — ik hoef het niet meteen te haten",
-            "position": 2
+            "position": 2,
+            "function": "endExperience"
         },
         {
             "text": " Al die perfecte mensen online hebben ook hun dagen dat ze strugglen, ze laten het gewoon niet zien",
-            "position": 3
+            "position": 3,
+            "function": "endExperience"
         },
         {
             "text": "Ik hoef mezelf niet te faken met zelfliefde, maar misschien kan ik wel proberen iets minder hard te zijn voor mezelf.",
-            "position": 4
+            "position": 4,
+            "function": "endExperience"
         },
           {
             "text": "Eerlijk… zelfs als ik het nu niet voel, misschien verdien ik wél gewoon rust in m’n hoofd.",
-            "position": 5
+            "position": 5,
+            "function": "endExperience"
           }
         ]
     }

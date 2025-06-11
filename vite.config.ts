@@ -11,18 +11,10 @@ export default defineConfig({
     vueDevTools(),
     tailwindcss(),
   ],
+  base: '/sd3-p12-md-project-2425-mellow-motion/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
-    },
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8001',
-        changeOrigin: true,
-        rewrite: (path: string) => path.replace(/^\/api/, ''),
-      },
     },
   },
 })
