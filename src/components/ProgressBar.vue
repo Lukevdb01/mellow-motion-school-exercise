@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import sceneManager from '@/core/sceneManager'
+import sceneManager from '@/core/SceneManager'
 
 interface SceneCollection {
   name: string
@@ -22,7 +22,7 @@ function updateActiveScene(newCollection: SceneCollection | null) {
     const isActive = activeBaseScene.value === name
     return {
       key: name,
-      src: `/images/${base}${isActive ? '-extended' : ''}.webp`,
+      src: `/sd3-p12-md-project-2425-mellow-motion/images/${base}${isActive ? '-extended' : ''}.webp`,
       alt: `${name} scene image`,
     }
   })

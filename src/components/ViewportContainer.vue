@@ -7,6 +7,7 @@ import Scene1 from '@/scenes/scene1.scene';
 import Scene2 from '@/scenes/scene2.scene';
 import Outro from '@/scenes/outro.scene';
 import GameSceneView from "@/scenes/GameSceneView.vue";
+import ProgressBar from "@/components/ProgressBar.vue";
 
 const renderer = new Renderer();
 const viewport = ref<HTMLElement | null>(null);
@@ -31,7 +32,9 @@ onMounted(() => {
   nextTick(() => {
     renderer.init();
     renderer.render();
-    renderer.target(viewport);
+    if (viewport.value) {
+      renderer.target({ value: viewport.value });
+    }
   });
 });
 onBeforeUnmount(() => {
@@ -43,6 +46,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="relative w-full flex items-center justify-center h-full">
+    <ProgressBar />
     <GameSceneView/>
     <section class="w-full h-full overflow-hidden" ref="viewport"></section>
   </div>
