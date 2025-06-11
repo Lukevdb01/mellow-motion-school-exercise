@@ -1,29 +1,43 @@
 <?php
+// index.php in /mellow-motion/backend/
+
+// CORS headers
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-require_once __DIR__ . '/controllers/StoryController.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+// Handle preflight
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-$method = $_SERVER['REQUEST_METHOD'];
-$uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+// Load controller
+require_once __DIR__ . '/controllers/StoryController.php';
 
+// Determine route
+$basePath = '/mellow-motion/backend';
+$requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$route = str_replace($basePath, '', $requestUri);
+$segments = explode('/', trim($route, '/'));
+
+$method = $_SERVER['REQUEST_METHOD'];
 $controller = new StoryController();
 
-if ($method === 'GET' && isset($uri[1]) && $uri[0] === 'backend' && $uri[1] === 'scene') {
-    $sceneId = $uri[2] ?? 'scene1';
+// Example: GET /scene/dialog1
+if ($method === 'GET' && isset($segments[0]) && $segments[0] === 'scene') {
+    $sceneId = $segments[1] ?? 'scene1';
     $controller->getScene($sceneId);
+    exit;
 
-} elseif ($method === 'POST' && isset($uri[1]) && $uri[0] === 'backend' && $uri[1] === 'answer-question') {
+// Example: POST /answer-question
+} elseif ($method === 'POST' && isset($segments[0]) && $segments[0] === 'answer-question') {
     $controller->answerQuestion();
+    exit;
 
 } else {
     http_response_code(404);
     echo json_encode(['error' => 'Route not found']);
+    exit;
 }

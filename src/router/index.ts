@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from '@/views/App.vue'
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory('/sd3-p12-md-project-2425-mellow-motion/'),
   routes: [
     {
       path: '/',
