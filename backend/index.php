@@ -1,15 +1,14 @@
 <?php
 // index.php in /mellow-motion/backend/
 
-// CORS headers
+// Basic CORS setup
+// Verstuur Content-Type header en CORS headers
 header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
 
-// Handle preflight
+// Preflight requests correct afhandelen
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    // Preflight hoeft verder niks te doen
+    http_response_code(204); // No Content
     exit;
 }
 
@@ -22,16 +21,16 @@ $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = str_replace($basePath, '', $requestUri);
 $segments = explode('/', trim($route, '/'));
 
+// Request method
 $method = $_SERVER['REQUEST_METHOD'];
 $controller = new StoryController();
 
-// Example: GET /scene/dialog1
+// Routes
 if ($method === 'GET' && isset($segments[0]) && $segments[0] === 'scene') {
     $sceneId = $segments[1] ?? 'scene1';
     $controller->getScene($sceneId);
     exit;
 
-// Example: POST /answer-question
 } elseif ($method === 'POST' && isset($segments[0]) && $segments[0] === 'answer-question') {
     $controller->answerQuestion();
     exit;
