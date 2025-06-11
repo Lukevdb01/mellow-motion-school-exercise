@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, nextTick} from 'vue'
 import Cloud from '@/components/cloud.vue'
 import sceneManager from "@/core/SceneManager";
 import Dialog from '@/components/dialog.vue'
 import EyelidBlink from "@/components/EyelidBlink.vue";
 import scene2Scene from "@/scenes/scene2.scene";
 
+const showIntro = ref(false);
+const introVideo = ref<HTMLVideoElement | null>(null);
 const scene = ref<any>({}); // Use 'any' for now, or define a more specific interface for scene
 const currentSceneId = ref('dialog1');
 const loading = ref(false);
 const showBlink = ref(false);
+const introNextSceneId = ref<string | null>(null);
+const introNextScene3D = ref<string | null>(null);
 
 const toggleQuestion = ref(false);
 
@@ -50,6 +54,16 @@ const verzorging = () => {
 
 const submitChoice = async (index: number) => {
   const choice = scene.value.choices[index];
+
+  if (choice.text === "Start de ervaring") {
+    introNextSceneId.value = choice.next;
+    introNextScene3D.value = choice.scene3D ?? null;
+    showIntro.value = true;
+    await nextTick(() => {
+      introVideo.value?.play();
+    });
+    return;
+  }
 
   if (choice.scene3D) {
     showBlink.value = true;
@@ -93,19 +107,55 @@ const blinkFinished = () => {
 }
 
 onMounted(() => {
-  loadScene(currentSceneId.value);
+  const video = introVideo.value;
 
-  // Add click listener to the main event div to toggle the question/dialog
-  if (event.value) {
-    event.value.addEventListener('click', () => {
-      toggleQuestion.value = true;
+  if (video) {
+    video.addEventListener('ended', () => {
+      showIntro.value = false;
+      if (introNextScene3D.value) {
+        sceneManager.setActiveSceneByName(introNextScene3D.value);
+        introNextScene3D.value = null;
+      }
+      if (introNextSceneId.value) {
+        loadScene(introNextSceneId.value);
+        currentSceneId.value = introNextSceneId.value;
+        introNextSceneId.value = null;
+      }
     });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && showIntro.value) {
+        video.pause();
+        showIntro.value = false;
+        if (introNextScene3D.value) {
+          sceneManager.setActiveSceneByName(introNextScene3D.value);
+          introNextScene3D.value = null;
+        }
+        if (introNextSceneId.value) {
+          loadScene(introNextSceneId.value);
+          currentSceneId.value = introNextSceneId.value;
+          introNextSceneId.value = null;
+        }
+      }
+    });
+
   }
-})
+
+  loadScene(currentSceneId.value);
+});
+
 </script>
 
 <template>
-  <div ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
+  <video
+      ref="introVideo"
+      class="w-screen h-screen absolute z-50 object-cover"
+      src="/assets/0000-0306.mp4"
+      autoplay
+      muted
+      playsinline
+      v-show="showIntro"
+  ></video>
+  <div v-if="!showIntro" ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
     <EyelidBlink v-model="showBlink" @blinkFinished="blinkFinished"/>
     <div
         v-if="!toggleQuestion && scene.text"
