@@ -56,12 +56,6 @@ class Game extends Scene {
         }
 
         Environment.use(this.scene);
-
-        this.curve = new THREE.CatmullRomCurve3(this.points, true); // true = closed loop
-        const curveGeometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));
-        const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-        const line = new THREE.Line(curveGeometry, curveMaterial);
-        this.scene.add(line);
     }
 }
 export default Game;

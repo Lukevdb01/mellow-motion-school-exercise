@@ -14,7 +14,7 @@ const toggleDialog = ref(false);
       </div>
     </Transition>
     <div @click="toggleDialog = !toggleDialog" class="rounded-full bg-white my-4 h-[44px] w-[44px] flex items-center justify-center">
-      <img src="/images/question.svg" alt="Question Icon" class="w-8 h-8 mx-auto" />
+      <img src="/sd3-p12-md-project-2425-mellow-motion/images/question.svg" alt="Question Icon" class="w-8 h-8 mx-auto" />
     </div>
   </div>
 </template>
