@@ -1,7 +1,7 @@
 import Scene from "@/core/Scene";
-import * as THREE from 'three';
-
-// import splineCamera from "@/core/SplineCamera";
+import Environment from "@/objects/environment";
+import * as THREE from "three";
+import { Reflector } from "three/examples/jsm/objects/Reflector";
 
 class Game extends Scene {
     points = [
@@ -11,9 +11,6 @@ class Game extends Scene {
         new THREE.Vector3(15, 0, 6),
     ];
     curve?: THREE.CatmullRomCurve3;
-
-    // splineFollowCamera: splineCamera | undefined;
-    // curve: THREE.CatmullRomCurve3 | undefined;
 
     constructor() {
         super();
@@ -25,16 +22,57 @@ class Game extends Scene {
         super.load();
         this.environment();
 
-        if (!this.camera /* || !this.curve */) return;
+        if (!this.camera) return;
         this.camera.position.y = 10;
-        // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
-        // this.splineFollowCamera.set(0, 0, 5);
 
-        const room = await this.addMesh('models/Memo.glb');
+        const room = await this.addMesh("models/Memo.glb");
         room.scene.position.set(0, 6, 5);
 
-        const gltf = await this.addMesh('models/popetje.glb');
+        const mirrorGLB = await this.addMesh("models/Mirror.glb");
+        const model = mirrorGLB.scene;
+        this.scene.add(model);
 
+        let mirrorSurfaceMesh: THREE.Mesh | null = null;
+        // Zoek naar materiaal met naam "MirrorSurface"
+        model.traverse((node: THREE.Object3D) => {
+            if ((node as THREE.Mesh).isMesh) {
+                const mesh = node as THREE.Mesh;
+                const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+                for (const material of materials) {
+                    if (material && material.name === "MirrorSurface") {
+                        mirrorSurfaceMesh = mesh;
+                        break;
+                    }
+                }
+            }
+        });
+
+        if (!mirrorSurfaceMesh) {
+            console.error("❌ Material with name 'MirrorSurface' not found in model.");
+            return;
+        }
+
+        // Maak Reflector met witte achtergrondkleur
+        const reflector = new Reflector(mirrorSurfaceMesh.geometry.clone(), {
+            clipBias: 0.003,
+            textureWidth: window.innerWidth * window.devicePixelRatio,
+            textureHeight: window.innerHeight * window.devicePixelRatio,
+            color: 0xffffff,
+        });
+
+        reflector.material.side = THREE.BackSide;
+
+        // Wereldmatrix gebruiken voor juiste plaatsing
+        mirrorSurfaceMesh.updateMatrixWorld(true);
+        reflector.position.setFromMatrixPosition(mirrorSurfaceMesh.matrixWorld);
+        reflector.quaternion.setFromRotationMatrix(mirrorSurfaceMesh.matrixWorld);
+        reflector.scale.copy(mirrorSurfaceMesh.scale);
+
+        // Vervang originele mesh
+        mirrorSurfaceMesh.visible = false;
+        this.scene.add(reflector);
+
+        const gltf = await this.addMesh("models/popetje.glb");
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
@@ -42,34 +80,22 @@ class Game extends Scene {
         }
 
         gltf.scene.scale.set(15, 15, 15);
-
     }
 
     override async update(): Promise<void> {
         super.update();
-
-        // if (this.splineFollowCamera) {
-        //     this.splineFollowCamera.update(0.001, true);
-        // }
     }
 
     environment() {
-        this.scene.background = new THREE.Color(0x87CEEB);
+        this.scene.background = new THREE.Color(0x87ceeb);
+
         if (this.camera) {
             this.camera.position.set(0, 20, 40);
             this.camera.lookAt(0, 15, 0);
         }
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 20, 10);
-        this.scene.add(light);
-        this.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
-
-        this.curve = new THREE.CatmullRomCurve3(this.points, true); // true = closed loop
-        const curveGeometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));
-        const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-        const line = new THREE.Line(curveGeometry, curveMaterial);
-        this.scene.add(line);
+        Environment.use(this.scene);
     }
 }
+
 export default Game;

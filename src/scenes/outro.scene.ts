@@ -56,12 +56,6 @@ class Game extends Scene {
             this.camera.position.set(0, 20, 40);
             this.camera.lookAt(0, 15, 0);
         }
-
-        this.curve = new THREE.CatmullRomCurve3(this.points, true); // true = closed loop
-        const curveGeometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));
-        const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
-        const line = new THREE.Line(curveGeometry, curveMaterial);
-        this.scene.add(line);
     }
 }
 export default Game;
