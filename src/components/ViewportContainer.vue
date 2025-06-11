@@ -55,7 +55,7 @@ const returnToHome = () => {
     <ProgressBar />
     <GameSceneView/>
     <button @click="returnToHome" class="absolute font-papercut bottom-4 left-4 border-[#EF3A25] border-4 text-[#EF3A25] bg-[#F8B0BC] px-4 py-2 shadow-lg hover:bg-[#bae0ca] hover:border-[#1B4994] hover:text-[#1B4994] transition-colors duration-300 z-10">
-      Back
+      Terug
     </button>
     <section class="w-full h-full overflow-hidden" ref="viewport"></section>
   </div>
