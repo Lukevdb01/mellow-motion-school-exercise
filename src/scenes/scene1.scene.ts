@@ -12,6 +12,9 @@ class Game extends Scene {
     ];
     curve?: THREE.CatmullRomCurve3;
 
+    // splineFollowCamera: splineCamera | undefined;
+    // curve: THREE.CatmullRomCurve3 | undefined;
+
     constructor() {
         super();
         this.collection.name = "Scene1";
@@ -24,6 +27,8 @@ class Game extends Scene {
 
         if (!this.camera) return;
         this.camera.position.y = 10;
+        // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
+        // this.splineFollowCamera.set(0, 0, 5);
 
         const room = await this.addMesh("models/Memo.glb");
         room.scene.position.set(0, 6, 5);
@@ -62,9 +67,6 @@ class Game extends Scene {
         });
 
         reflector.material.side = THREE.BackSide;
-        this.camera.position.y = 3;
-        this.camera.position.x = 1;
-        this.camera.position.z = 5;
 
         // Wereldmatrix gebruiken voor juiste plaatsing
         mirrorSurfaceMesh.updateMatrixWorld(true);
@@ -84,11 +86,15 @@ class Game extends Scene {
         }
 
         gltf.scene.scale.set(15, 15, 15);
-        const phone = await this.addMesh('models/FirstPerson.glb');
+
     }
 
     override async update(): Promise<void> {
         super.update();
+
+        // if (this.splineFollowCamera) {
+        //     this.splineFollowCamera.update(0.001, true);
+        // }
     }
 
     environment() {
@@ -102,5 +108,4 @@ class Game extends Scene {
         Environment.use(this.scene);
     }
 }
-
 export default Game;
