@@ -7,3 +7,15 @@
 .font-cursive {
   font-family: cursive, sans-serif;
 }
+
+@font-face {
+  font-family: Papercut;
+  src: url('/fonts/PaperCutRegular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-papercut {
+  font-family: Papercut, sans-serif;
+}

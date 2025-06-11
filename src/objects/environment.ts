@@ -9,7 +9,7 @@ export default class Environment {
         
         // Load HDRI background (in this case, PNG fallback)
         const loader = new THREE.TextureLoader();
-        loader.load('background.png', (texture) => {
+        loader.load('images/background.png', (texture) => {
             texture.mapping = THREE.EquirectangularReflectionMapping;
             scene.environment = texture;
             scene.background = texture;
