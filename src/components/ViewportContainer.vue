@@ -8,9 +8,11 @@ import Scene2 from '@/scenes/scene2.scene';
 import Outro from '@/scenes/outro.scene';
 import GameSceneView from "@/scenes/GameSceneView.vue";
 import ProgressBar from "@/components/ProgressBar.vue";
+import { useRouter } from 'vue-router';
 
 const renderer = new Renderer();
 const viewport = ref<HTMLElement | null>(null);
+const router = useRouter();
 
 const resizeHandler = () => {
   if (renderer.renderer) {
@@ -41,6 +43,10 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeHandler);
 });
 
+const returnToHome = () => {
+  sceneManager.getActiveScene()?.clearScene();
+  window.location.href = '/sd3-p12-md-project-2425-mellow-motion/';
+};
 
 </script>
 
@@ -48,6 +54,9 @@ onBeforeUnmount(() => {
   <div class="relative w-full flex items-center justify-center h-full">
     <ProgressBar />
     <GameSceneView/>
+    <button @click="returnToHome" class="absolute font-papercut bottom-4 left-4 border-[#EF3A25] border-4 text-[#EF3A25] bg-[#F8B0BC] px-4 py-2 shadow-lg hover:bg-[#bae0ca] hover:border-[#1B4994] hover:text-[#1B4994] transition-colors duration-300 z-10">
+      Back
+    </button>
     <section class="w-full h-full overflow-hidden" ref="viewport"></section>
   </div>
 </template>

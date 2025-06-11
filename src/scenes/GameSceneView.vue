@@ -170,10 +170,10 @@ onMounted(() => {
         :initial="{ opacity: 0 }"
         :enter="{ opacity: 1, transition: { delay: 500, duration: 1000 } }"
         :leave="{ opacity: 0, transition: { duration: 500 } }"
-        class="absolute top-52 text-center w-[80vw]"
+        class="absolute top-48 text-center w-[80vw]"
     >
-      <p class="text-5xl font-cursive font-medium">{{ scene.text }}</p>
-      <p v-if="scene.mini_title" class="text-3xl font-cursive">{{ scene.mini_title }}</p>
+      <p class="text-4xl font-papercut text-[#EF3A25] mb-4 font-medium">{{ scene.text }}</p>
+      <p v-if="scene.mini_title" class="text-2xl  text-[#F8CA2C] font-papercut">{{ scene.mini_title }}</p>
     </div>
 
     <Dialog
