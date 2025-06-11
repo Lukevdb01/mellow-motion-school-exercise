@@ -46,65 +46,298 @@
     ]
   },
   "dialog4": {
-    "text": "",
+    "text": "Je staat voor de spiegel",
     "choices": [
       {
-        "text": "Hoofd",
-        "position": 3,
-        "next": "dialog5"
-      },
-      {
-        "text": "Ogen",
-        "position": 4,
-        "next": "dialog5"
-      },
-      {
-        "text": "Neus",
-        "position": 9,
+        "text": "Klik om je zelf te verzorgen",
+        "position": 8,
+        "function": "Verzorging",
         "next": "dialog5"
       }
     ]
   },
   "dialog5": {
-    "text": "Je staat voor de spiegel",
+    "text": "Welke plek wil je als eerste bekijken?",
+    "choices": [
+      { "text": "Hoofd", "position": 3, "next": "dialogHoofd_start" },
+      { "text": "Ogen",  "position": 4, "next": "dialogOgen_start" },
+      { "text": "Neus",  "position": 9, "next": "dialogNeus_start" }
+    ]
+  },
+  "dialogHoofd_start": {
+    "text": "Huid (hoofd/wangen aanklikken)",
     "choices": [
       {
-        "text": "Klik om je zelf te verzorgen",
-        "position": 6,
-        "function": "Verzorging",
-        "next": "dialog6",
-        "scene3D": "OutroScene"
+        "text": "Waarom ziet mijn huid er nooit zo glad uit als bij haar? Misschien moet ik die nieuwe cleanser toch proberen...",
+        "position": 1,
+        "next": "dialogHoofd_chooseNext"
+      },
+      {
+        "text": "Is dit nou echt acne, of maak ik het erger door er steeds zo obsessief naar te kijken?",
+        "position": 2,
+        "next": "dialogHoofd_chooseNext"
       }
     ]
   },
-    "dialog6": {
-        "text": "",
-        "choices": [
-        {
-            "text": "Ik ben misschien nog niet blij met hoe ik eruitzie, maar dat betekent niet dat ik voor altijd zo hoef te voelen",
-            "position": 1,
-            "function": "endExperience"
-        },
-        {
-            "text": "M’n lijf doet z’n best, ook al voelt het soms alsof ik faal — ik hoef het niet meteen te haten",
-            "position": 2,
-            "function": "endExperience"
-        },
-        {
-            "text": " Al die perfecte mensen online hebben ook hun dagen dat ze strugglen, ze laten het gewoon niet zien",
-            "position": 3,
-            "function": "endExperience"
-        },
-        {
-            "text": "Ik hoef mezelf niet te faken met zelfliefde, maar misschien kan ik wel proberen iets minder hard te zijn voor mezelf.",
-            "position": 4,
-            "function": "endExperience"
-        },
-          {
-            "text": "Eerlijk… zelfs als ik het nu niet voel, misschien verdien ik wél gewoon rust in m’n hoofd.",
-            "position": 5,
-            "function": "endExperience"
-          }
-        ]
-    }
+  "dialogHoofd_chooseNext": {
+    "text": "Waar wil je nu op focussen?",
+    "choices": [
+      { "text": "Ogen", "position": 4, "next": "dialogHoofdOgen" },
+      { "text": "Neus", "position": 9, "next": "dialogHoofdNeus" }
+    ]
+  },
+  "dialogHoofdOgen": {
+    "text": "Ogen/wallen",
+    "choices": [
+      {
+        "text": "Ik zie er zo moe uit. Misschien helpt die dure oogcrème van die influencer wel.",
+        "position": 1,
+        "next": "dialogHoofdOgenNeus"
+      },
+      {
+        "text": "Waarom voel ik me schuldig omdat ik er gewoon… normaal uitzie?",
+        "position": 3,
+        "next": "dialogHoofdOgenNeus"
+      }
+    ]
+  },
+  "dialogHoofdOgenNeus": {
+    "text": "Neus",
+    "choices": [
+      {
+        "text": "Als mijn neus net wat smaller was… misschien moet ik sparen voor een ingreep.",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Vroeger vond ik mijn neus nooit een probleem. Tot ik zag hoe iedereen een ‘perfecte’ filterneus heeft.",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialogHoofdNeus": {
+    "text": "Neus",
+    "choices": [
+      {
+        "text": "Als mijn neus net wat smaller was… misschien moet ik sparen voor een ingreep.",
+        "position": 1,
+        "next": "dialogHoofdNeusOgen"
+      },
+      {
+        "text": "Vroeger vond ik mijn neus nooit een probleem. Tot ik zag hoe iedereen een ‘perfecte’ filterneus heeft.",
+        "position": 3,
+        "next": "dialogHoofdNeusOgen"
+      }
+    ]
+  },
+  "dialogHoofdNeusOgen": {
+    "text": "Ogen/wallen",
+    "choices": [
+      {
+        "text": "Ik zie er zo moe uit. Misschien helpt die dure oogcrème van die influencer wel.",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Waarom voel ik me schuldig omdat ik er gewoon… normaal uitzie?",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialogOgen_start": {
+    "text": "Ogen/wallen",
+    "choices": [
+      {
+        "text": "Ik zie er zo moe uit. Misschien helpt die dure oogcrème van die influencer wel.",
+        "position": 1,
+        "next": "dialogOgen_chooseNext"
+      },
+      {
+        "text": "Waarom voel ik me schuldig omdat ik er gewoon… normaal uitzie?",
+        "position": 3,
+        "next": "dialogOgen_chooseNext"
+      }
+    ]
+  },
+  "dialogOgen_chooseNext": {
+    "text": "Waar wil je nu op focussen?",
+    "choices": [
+      { "text": "Hoofd", "position": 3, "next": "dialogOgenHoofd" },
+      { "text": "Neus",  "position": 9, "next": "dialogOgenNeus" }
+    ]
+  },
+  "dialogOgenHoofd": {
+    "text": "Huid",
+    "choices": [
+      {
+        "text": "Waarom ziet mijn huid er nooit zo glad uit als bij haar? Misschien moet ik die nieuwe cleanser toch proberen...",
+        "position": 1,
+        "next": "dialogOgenHoofdNeus"
+      },
+      {
+        "text": "Is dit nou echt acne, of maak ik het erger door er steeds zo obsessief naar te kijken?",
+        "position": 3,
+        "next": "dialogOgenHoofdNeus"
+      }
+    ]
+  },
+  "dialogOgenHoofdNeus": {
+    "text": "Neus",
+    "choices": [
+      {
+        "text": "Als mijn neus net wat smaller was… misschien moet ik sparen voor een ingreep.",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Vroeger vond ik mijn neus nooit een probleem. Tot ik zag hoe iedereen een ‘perfecte’ filterneus heeft.",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialogOgenNeus": {
+    "text": "Neus",
+    "choices": [
+      {
+        "text": "Als mijn neus net wat smaller was… misschien moet ik sparen voor een ingreep.",
+        "position": 1,
+        "next": "dialogOgenNeusHoofd"
+      },
+      {
+        "text": "Vroeger vond ik mijn neus nooit een probleem. Tot ik zag hoe iedereen een ‘perfecte’ filterneus heeft.",
+        "position": 3,
+        "next": "dialogOgenNeusHoofd"
+      }
+    ]
+  },
+  "dialogOgenNeusHoofd": {
+    "text": "Huid",
+    "choices": [
+      {
+        "text": "Waarom ziet mijn huid er nooit zo glad uit als bij haar? Misschien moet ik die nieuwe cleanser toch proberen...",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Is dit nou echt acne, of maak ik het erger door er steeds zo obsessief naar te kijken?",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialogNeus_start": {
+    "text": "Neus",
+    "choices": [
+      {
+        "text": "Als mijn neus net wat smaller was… misschien moet ik sparen voor een ingreep.",
+        "position": 1,
+        "next": "dialogNeus_chooseNext"
+      },
+      {
+        "text": "Vroeger vond ik mijn neus nooit een probleem. Tot ik zag hoe iedereen een ‘perfecte’ filterneus heeft.",
+        "position": 3,
+        "next": "dialogNeus_chooseNext"
+      }
+    ]
+  },
+  "dialogNeus_chooseNext": {
+    "text": "Waar wil je nu op focussen?",
+    "choices": [
+      { "text": "Hoofd", "position": 3, "next": "dialogNeusHoofd" },
+      { "text": "Ogen",  "position": 4, "next": "dialogNeusOgen" }
+    ]
+  },
+  "dialogNeusHoofd": {
+    "text": "Huid",
+    "choices": [
+      {
+        "text": "Waarom ziet mijn huid er nooit zo glad uit als bij haar? Misschien moet ik die nieuwe cleanser toch proberen...",
+        "position": 1,
+        "next": "dialogNeusHoofdOgen"
+      },
+      {
+        "text": "Is dit nou echt acne, of maak ik het erger door er steeds zo obsessief naar te kijken?",
+        "position": 3,
+        "next": "dialogNeusHoofdOgen"
+      }
+    ]
+  },
+  "dialogNeusHoofdOgen": {
+    "text": "Ogen",
+    "choices": [
+      {
+        "text": "Ik zie er zo moe uit. Misschien helpt die dure oogcrème van die influencer wel.",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Waarom voel ik me schuldig omdat ik er gewoon… normaal uitzie?",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialogNeusOgen": {
+    "text": "Ogen",
+    "choices": [
+      {
+        "text": "Ik zie er zo moe uit. Misschien helpt die dure oogcrème van die influencer wel.",
+        "position": 1,
+        "next": "dialogNeusOgenHoofd"
+      },
+      {
+        "text": "Waarom voel ik me schuldig omdat ik er gewoon… normaal uitzie?",
+        "position": 3,
+        "next": "dialogNeusOgenHoofd"
+      }
+    ]
+  },
+  "dialogNeusOgenHoofd": {
+    "text": "Huid",
+    "choices": [
+      {
+        "text": "Waarom ziet mijn huid er nooit zo glad uit als bij haar? Misschien moet ik die nieuwe cleanser toch proberen...",
+        "position": 1,
+        "next": "dialog6"
+      },
+      {
+        "text": "Is dit nou echt acne, of maak ik het erger door er steeds zo obsessief naar te kijken?",
+        "position": 3,
+        "next": "dialog6"
+      }
+    ]
+  },
+  "dialog6": {
+    "text": "",
+    "choices": [
+      {
+        "text": "Ik ben misschien nog niet blij met hoe ik eruitzie, maar dat betekent niet dat ik voor altijd zo hoef te voelen",
+        "position": 1,
+        "function": "endExperience"
+      },
+      {
+        "text": "M’n lijf doet z’n best, ook al voelt het soms alsof ik faal — ik hoef het niet meteen te haten",
+        "position": 2,
+        "function": "endExperience"
+      },
+      {
+        "text": " Al die perfecte mensen online hebben ook hun dagen dat ze strugglen, ze laten het gewoon niet zien",
+        "position": 3,
+        "function": "endExperience"
+      },
+      {
+        "text": "Ik hoef mezelf niet te faken met zelfliefde, maar misschien kan ik wel proberen iets minder hard te zijn voor mezelf.",
+        "position": 4,
+        "function": "endExperience"
+      },
+      {
+        "text": "Eerlijk… zelfs als ik het nu niet voel, misschien verdien ik wél gewoon rust in m’n hoofd.",
+        "position": 5,
+        "function": "endExperience"
+      }
+    ]
+  }
 }

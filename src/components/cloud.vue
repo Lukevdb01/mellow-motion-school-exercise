@@ -1,7 +1,14 @@
 <script setup lang="ts">
-const props = defineProps<{
-  text: string
-}>();
+const props = defineProps({
+  text: {
+    type: String,
+    required: true,
+  },
+  hover: {
+    type: Boolean,
+    default: false,
+  }
+});
 </script>
 
 <template>

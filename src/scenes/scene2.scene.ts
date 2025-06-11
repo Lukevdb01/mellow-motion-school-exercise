@@ -58,8 +58,9 @@ class Game extends Scene {
         const backwards = this.poppetje.position.clone().sub(forward);
         this.poppetje.lookAt(backwards);
 
+        this.poppetje.position.z = 2;
         this.camera.position.y = 20;
-        this.camera.position.z = 20;
+        this.camera.position.z = 15;
     }
 
     override async update(): Promise<void> {
