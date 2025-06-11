@@ -25,26 +25,33 @@ class Game extends Scene {
         super.load();
         this.environment();
 
-        if (!this.camera /* || !this.curve */) return;
-        this.camera.position.y = 10;
-        this.camera.position.z = 20;
-        
-        // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
-        // this.splineFollowCamera.set(0, 0, 5);
+        if (!this.camera) return;
 
-        const arm = await this.addMesh('models/Armen.glb');
-        arm.scene.position.set(0, 0, 0);
+        this.camera.position.y = 15;
+        this.camera.position.x = 15;
+        this.camera.position.z = 15;
 
-        const gltf = await this.addMesh('models/Telefoon.glb');
+        // Load arms
+        const armGltf = await this.addMesh('models/Armen.glb');
+        this.arms = armGltf.scene;
+        this.arms.scale.set(15, 15, 15);
+        this.scene.add(this.arms); // ← make sure it's added to the scene
 
-        if (this.mixer && gltf.animations.length > 0) {
-            gltf.animations.forEach((clip) => {
+        // Load phone
+        const phoneGltf = await this.addMesh('models/Telefoon.glb');
+        this.phone = phoneGltf.scene;
+        this.phone.scale.set(15, 15, 15);
+
+        // Attach phone to arms
+        this.arms.add(this.phone);
+        this.phone.position.set(0, -0.05, 0.15); // adjust to look like it's held
+
+        // Optional: Play any animations in phone model
+        if (this.mixer && phoneGltf.animations.length > 0) {
+            phoneGltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
             });
         }
-
-        gltf.scene.scale.set(15, 15, 15);
-
     }
 
     override async update(): Promise<void> {
