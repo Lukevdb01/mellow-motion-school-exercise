@@ -44,44 +44,22 @@ class Game extends Scene {
 
     poppetje: THREE.Object3D | null = null;
     curveProgress = 0;
+    targetPosition?: THREE.Vector3;
 
     walkToMirrorStart() {
-        if (!this.curve) {
-            console.log("curve is not defined");
-            return;
-        }
-        if (!this.poppetje) {
-            console.log("poppetje is not defined");
-            return;
-        }
-        console.log("Starting walk to mirro2r...");
+        if (!this.poppetje || !this.curve || !this.camera) return;
 
         this.curveProgress = 0;
-        this.animateWalkToMirror();
-    }
+        this.targetPosition = this.curve.getPointAt(this.curveProgress);
+        this.poppetje.position.copy(this.targetPosition);
 
-    animateWalkToMirror() {
-        if (!this.curve || !this.poppetje) return;
+        const forward = new THREE.Vector3(0, 0, 1);
+        forward.applyQuaternion(this.poppetje.quaternion);
+        const backwards = this.poppetje.position.clone().sub(forward);
+        this.poppetje.lookAt(backwards);
 
-        const speed = 0.0015; // adjust as needed
-        this.curveProgress += speed;
-
-        if (this.curveProgress >= 1) {
-            this.curveProgress = 1; // clamp to 1
-            return; // stop animation
-        }
-
-        const position = this.curve.getPoint(this.curveProgress);
-        const tangent = this.curve.getTangent(this.curveProgress);
-
-        this.poppetje.position.copy(position);
-
-        // Optional: face forward
-        const lookAt = position.clone().add(tangent);
-        this.poppetje.lookAt(lookAt);
-
-        // Animate again on the next frame
-        requestAnimationFrame(() => this.animateWalkToMirror());
+        this.camera.position.y = 20;
+        this.camera.position.z = 20;
     }
 
     override async update(): Promise<void> {
