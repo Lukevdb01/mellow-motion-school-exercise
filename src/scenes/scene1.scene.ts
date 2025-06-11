@@ -27,13 +27,15 @@ class Game extends Scene {
 
         if (!this.camera /* || !this.curve */) return;
         this.camera.position.y = 10;
+        this.camera.position.z = 20;
+        
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
-        const room = await this.addMesh('models/Memo.glb');
-        room.scene.position.set(0, 6, 5);
+        const arm = await this.addMesh('models/Armen.glb');
+        arm.scene.position.set(0, 0, 0);
 
-        const gltf = await this.addMesh('models/popetje.glb');
+        const gltf = await this.addMesh('models/Telefoon.glb');
 
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
