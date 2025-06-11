@@ -29,7 +29,7 @@ class Game extends Scene {
         this.environment();
 
         if (!this.camera /* || !this.curve */) return;
-
+        this.camera.position.y = 10;
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
@@ -56,12 +56,6 @@ class Game extends Scene {
             this.camera.position.set(0, 20, 40);
             this.camera.lookAt(0, 15, 0);
         }
-
-        const geometry = new THREE.PlaneGeometry(100, 100);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        const plane = new THREE.Mesh(geometry, material);
-        plane.rotation.x = -Math.PI / 2;
-        this.scene.add(plane);
 
         this.curve = new THREE.CatmullRomCurve3(this.points, true); // true = closed loop
         const curveGeometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));
