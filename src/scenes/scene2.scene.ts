@@ -32,13 +32,35 @@ class Game extends Scene {
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
         // this.splineFollowCamera.set(0, 0, 5);
 
-        const gltf = await this.addMesh('models/memo.glb');
-
+        const gltf = await this.addMesh('models/popetje.glb');
+        this.poppetje = gltf.scene;
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
             });
         }
+
+        gltf.scene.scale.set(15, 15, 15);
+    }
+
+    poppetje: THREE.Object3D | null = null;
+    curveProgress = 0;
+    targetPosition?: THREE.Vector3;
+
+    walkToMirrorStart() {
+        if (!this.poppetje || !this.curve || !this.camera) return;
+
+        this.curveProgress = 0;
+        this.targetPosition = this.curve.getPointAt(this.curveProgress);
+        this.poppetje.position.copy(this.targetPosition);
+
+        const forward = new THREE.Vector3(0, 0, 1);
+        forward.applyQuaternion(this.poppetje.quaternion);
+        const backwards = this.poppetje.position.clone().sub(forward);
+        this.poppetje.lookAt(backwards);
+
+        this.camera.position.y = 20;
+        this.camera.position.z = 20;
     }
 
     override async update(): Promise<void> {

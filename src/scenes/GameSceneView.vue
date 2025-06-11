@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, nextTick} from 'vue'
 import Cloud from '@/components/cloud.vue'
 import sceneManager from "@/core/SceneManager";
 import Dialog from '@/components/dialog.vue'
 import EyelidBlink from "@/components/EyelidBlink.vue";
+import scene2Scene from "@/scenes/scene2.scene";
 
+const showIntro = ref(false);
+const introVideo = ref<HTMLVideoElement | null>(null);
 const scene = ref<any>({}); // Use 'any' for now, or define a more specific interface for scene
 const currentSceneId = ref('dialog1');
 const loading = ref(false);
 const showBlink = ref(false);
+const introNextSceneId = ref<string | null>(null);
+const introNextScene3D = ref<string | null>(null);
 
 const toggleQuestion = ref(false);
 
@@ -25,15 +30,20 @@ const loadScene = async (id) => {
     currentSceneId.value = id;
   } catch (err) {
     console.error('Failed to load scene:', err);
-    scene.value = { text: 'Failed to load scene.' };
+    scene.value = {text: 'Failed to load scene.'};
   } finally {
     loading.value = false;
   }
 }
 
 const walkToMirror = () => {
-  console.log("Walking to the mirror...");
-  // Add any scene updates or animations here
+  const activeScene = sceneManager.getActiveScene();
+  if (activeScene instanceof scene2Scene) {
+    activeScene.walkToMirrorStart();
+    console.log("Walking to mirror1...");
+  } else {
+    console.warn("Active scene is not scene2, or walkToMirror is not available.");
+  }
 };
 
 const verzorging = () => {
@@ -44,6 +54,16 @@ const verzorging = () => {
 
 const submitChoice = async (index: number) => {
   const choice = scene.value.choices[index];
+
+  if (choice.text === "Start de ervaring") {
+    introNextSceneId.value = choice.next;
+    introNextScene3D.value = choice.scene3D ?? null;
+    showIntro.value = true;
+    await nextTick(() => {
+      introVideo.value?.play();
+    });
+    return;
+  }
 
   if (choice.scene3D) {
     showBlink.value = true;
@@ -63,7 +83,7 @@ const submitChoice = async (index: number) => {
   try {
     const res = await fetch('/api/backend/answer-question', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         sceneId: currentSceneId.value,
         choiceIndex: index,
@@ -75,7 +95,7 @@ const submitChoice = async (index: number) => {
     currentSceneId.value = choice.next ?? currentSceneId.value;  // ✅ set it directly
   } catch (err) {
     console.error('Failed to submit choice:', err);
-    scene.value = { text: 'Something went wrong.' };
+    scene.value = {text: 'Something went wrong.'};
   } finally {
     loading.value = false;
   }
@@ -87,52 +107,89 @@ const blinkFinished = () => {
 }
 
 onMounted(() => {
-  loadScene(currentSceneId.value);
+  const video = introVideo.value;
 
-  // Add click listener to the main event div to toggle the question/dialog
-  if (event.value) {
-    event.value.addEventListener('click', () => {
-      toggleQuestion.value = true;
+  if (video) {
+    video.addEventListener('ended', () => {
+      showIntro.value = false;
+      if (introNextScene3D.value) {
+        sceneManager.setActiveSceneByName(introNextScene3D.value);
+        introNextScene3D.value = null;
+      }
+      if (introNextSceneId.value) {
+        loadScene(introNextSceneId.value);
+        currentSceneId.value = introNextSceneId.value;
+        introNextSceneId.value = null;
+      }
     });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && showIntro.value) {
+        video.pause();
+        showIntro.value = false;
+        if (introNextScene3D.value) {
+          sceneManager.setActiveSceneByName(introNextScene3D.value);
+          introNextScene3D.value = null;
+        }
+        if (introNextSceneId.value) {
+          loadScene(introNextSceneId.value);
+          currentSceneId.value = introNextSceneId.value;
+          introNextSceneId.value = null;
+        }
+      }
+    });
+
   }
-})
+
+  loadScene(currentSceneId.value);
+});
+
 </script>
 
 <template>
-  <div ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
+  <video
+      ref="introVideo"
+      class="w-screen h-screen absolute z-50 object-cover"
+      src="/assets/0000-0306.mp4"
+      autoplay
+      muted
+      playsinline
+      v-show="showIntro"
+  ></video>
+  <div v-if="!showIntro" ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
     <EyelidBlink v-model="showBlink" @blinkFinished="blinkFinished"/>
     <div
-      v-if="!toggleQuestion && scene.text"
-      v-motion
-      :initial="{ opacity: 0 }"
-      :enter="{ opacity: 1, transition: { delay: 500, duration: 1000 } }"
-      :leave="{ opacity: 0, transition: { duration: 500 } }"
-      class="absolute top-52 text-center w-[80vw]"
+        v-if="!toggleQuestion && scene.text"
+        v-motion
+        :initial="{ opacity: 0 }"
+        :enter="{ opacity: 1, transition: { delay: 500, duration: 1000 } }"
+        :leave="{ opacity: 0, transition: { duration: 500 } }"
+        class="absolute top-52 text-center w-[80vw]"
     >
       <p class="text-5xl font-cursive font-medium">{{ scene.text }}</p>
       <p v-if="scene.mini_title" class="text-3xl font-cursive">{{ scene.mini_title }}</p>
     </div>
 
     <Dialog
-      v-if="toggleQuestion"
-      v-motion-fade
-      class="absolute bottom-8 z-10 left-8"
+        v-if="toggleQuestion"
+        v-motion-fade
+        class="absolute bottom-8 z-10 left-8"
     >
       <p>{{ scene.text }}</p>
     </Dialog>
 
     <div
-      v-if="!showBlink"
+        v-if="!showBlink"
         v-motion
-      :initial="{ opacity: 0 }"
-      :enter="{ opacity: 1, transition: { delay: 1000, duration: 1000 } }"
-      :leave="{ opacity: 0, transition: { duration: 500 } }" class="absolute grid grid-cols-3 grid-rows-3 place-items-center h-full px-8 w-screen">
+        :initial="{ opacity: 0 }"
+        :enter="{ opacity: 1, transition: { delay: 1000, duration: 1000 } }"
+        :leave="{ opacity: 0, transition: { duration: 500 } }"
+        class="absolute grid grid-cols-3 grid-rows-3 place-items-center h-full px-8 w-screen">
       <Cloud
-        v-for="(choice, index) in scene.choices"
-        :key="index"
-        :text="choice.text"
-        :class="'grid-' + (choice.position ?? index + 1)"
-        @click="submitChoice(index)"
+          v-for="(choice, index) in scene.choices"
+          :key="index"
+          :text="choice.text"
+          :class="'grid-' + (choice.position ?? index + 1)"
+          @click="submitChoice(index)"
       />
     </div>
   </div>
@@ -144,7 +201,7 @@ onMounted(() => {
   grid-row: 3;
 }
 
-.grid-8{
+.grid-8 {
   grid-column: 2;
   grid-row: 3;
 }
