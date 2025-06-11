@@ -1,4 +1,5 @@
 import Scene from "@/core/Scene";
+import Environment from "@/objects/environment";
 import * as THREE from 'three';
 
 // import splineCamera from "@/core/SplineCamera";
@@ -54,10 +55,7 @@ class Game extends Scene {
             this.camera.lookAt(0, 15, 0);
         }
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(10, 20, 10);
-        this.scene.add(light);
-        this.scene.add(new THREE.AmbientLight(0x404040, 0.5)); // zacht licht
+        Environment.use(this.scene);
 
         this.curve = new THREE.CatmullRomCurve3(this.points, true); // true = closed loop
         const curveGeometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));

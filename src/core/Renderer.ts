@@ -22,6 +22,7 @@ class Renderer {
         activeScene.load();
     }
 
+
     target(element: { value: HTMLElement }): void {
         if (!this.renderer) return;
 
