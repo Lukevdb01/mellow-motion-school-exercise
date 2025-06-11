@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import sceneManager from '@/core/sceneManager'
+import sceneManager from '@/core/SceneManager'
 
 interface SceneCollection {
   name: string
