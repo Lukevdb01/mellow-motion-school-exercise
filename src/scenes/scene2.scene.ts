@@ -27,6 +27,7 @@ class Game extends Scene {
         super.load();
         this.environment();
 
+        this.curve = new THREE.CatmullRomCurve3(this.points);
         if (!this.camera /* || !this.curve */) return;
         this.camera.position.y = 10;
         // this.splineFollowCamera = new splineCamera(this.curve, this.camera);
