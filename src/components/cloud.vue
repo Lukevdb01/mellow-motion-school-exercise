@@ -16,7 +16,6 @@ const props = defineProps({
     <div class="cloud-content">
       <p class="scribble-text">{{ props.text }}</p>
     </div>
-    <div class="speech-bubble-pointer"></div>
   </div>
 </template>
 
