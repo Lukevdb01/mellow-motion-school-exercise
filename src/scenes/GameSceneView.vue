@@ -5,6 +5,7 @@ import sceneManager from "@/core/SceneManager";
 import Dialog from '@/components/dialog.vue'
 import EyelidBlink from "@/components/EyelidBlink.vue";
 import scene2Scene from "@/scenes/scene2.scene";
+import EyelidOpens from "@/components/EyelidOpens.vue";
 
 const showIntro = ref(false);
 const introVideo = ref<HTMLVideoElement | null>(null);
@@ -15,6 +16,7 @@ const showBlink = ref(false);
 const introNextSceneId = ref<string | null>(null);
 const introNextScene3D = ref<string | null>(null);
 const showEndScreen = ref(false);
+const OpenBlink = ref(false);
 
 const toggleQuestion = ref(false);
 
@@ -75,8 +77,11 @@ const submitChoice = async (index: number) => {
 
   if (choice.scene3D) {
     showBlink.value = true;
-    sceneManager.setActiveSceneByName(choice.scene3D);
-    toggleQuestion.value = false;
+
+    setTimeout(() => {
+      sceneManager.setActiveSceneByName(choice.scene3D);
+      toggleQuestion.value = false;
+    }, 1000);
   }
 
   if (choice.function) {
@@ -116,7 +121,12 @@ const blinkFinished = () => {
   toggleQuestion.value = false;
 }
 
+const OpenBlinkFinished = () => {
+  OpenBlink.value = false;
+}
+
 onMounted(() => {
+  OpenBlink.value = true;
   const video = introVideo.value;
 
   if (video) {
@@ -167,6 +177,7 @@ onMounted(() => {
   ></video>
   <div v-if="!showIntro" ref="event" class="w-screen h-screen fixed font-cursive left-0 top-0 flex flex-col justify-center items-center">
     <EyelidBlink v-model="showBlink" @blinkFinished="blinkFinished"/>
+    <EyelidOpens v-model="OpenBlink" @blinkFinished="OpenBlinkFinished"/>
     <div
         v-if="!toggleQuestion && scene.text"
         v-motion

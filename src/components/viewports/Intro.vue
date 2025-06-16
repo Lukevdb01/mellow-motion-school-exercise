@@ -3,6 +3,7 @@
   import { useRouter } from 'vue-router';
   import EyelidBlink from "@/components/EyelidBlink.vue";
 import { useHead } from '@vueuse/head';
+  import EyelidClose from "@/components/viewports/EyelidClose.vue";
   const router = useRouter();
 
   const fadeOut = ref(false); // Control fade-out
@@ -84,7 +85,7 @@ import { useHead } from '@vueuse/head';
             <h1 class="text-6xl font-papercut text-[#1b4994] mb-4">Mellow Motion</h1>
             <p class="text-2xl mb-8 font-papercut text-[#EF3A25]">Een interactieve 3D ervaring over zelfzorg en mentale gezondheid.</p>
             <div class="w-full flex justify-center">
-              <button @click="start" class="bg-white absolute text-black px-8 py-4 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300">
+              <button @click="start" class="cursor-pointer bg-white absolute text-black px-8 py-4 rounded-lg shadow-lg hover:bg-gray-200 transition-colors duration-300">
                 Start
               </button>
 
@@ -92,7 +93,7 @@ import { useHead } from '@vueuse/head';
             </div>
         </div>
       </div>
-      <EyelidBlink v-model="showBlink" @blinkFinished="startPhoneScene"/>
+      <EyelidClose v-model="showBlink" @blinkFinished="startPhoneScene"/>
     </section>
   </template>
 
