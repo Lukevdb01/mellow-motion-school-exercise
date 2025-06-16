@@ -23,7 +23,7 @@ const event = ref<HTMLElement | null>(null);
 const loadScene = async (id) => {
   loading.value = true
   try {
-    const res = await fetch(`http://localhost:8001/mellow-motion/backend/scene/${id}`, {
+    const res = await fetch(`https://api.lukevdbroek.nl/mellow-motion/backend/scene/${id}`, {
       method: 'GET',
       headers: {'Content-Type': 'application/json'},
     });
@@ -91,7 +91,7 @@ const submitChoice = async (index: number) => {
 
   loading.value = true;
   try {
-    const res = await fetch('http://localhost:8001/mellow-motion/backend/answer-question', {
+    const res = await fetch('https://api.lukevdbroek.nl/mellow-motion/backend/answer-question', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
