@@ -38,6 +38,35 @@ class Game extends Scene {
         const model = mirrorGLB.scene;
         this.scene.add(model);
 
+        const phoneGLB = await this.addMesh("models/FirstPerson.glb");
+        phoneGLB.scene.traverse((node) => {
+            if ((node as THREE.Mesh).isMesh) {
+                console.log("MESH:", node.name); // look for "Screen" or similar
+            }
+        });
+
+// Attach to camera for first-person view
+        this.camera.add(phoneGLB.scene);
+        this.scene.add(this.camera);
+
+// Place hands just in front of camera (adjust if needed)
+        phoneGLB.scene.position.set(-35, -25, 36);
+        phoneGLB.scene.scale.set(30, 30, 30);
+
+        if (this.mixer) {
+            const restPoseClip = phoneGLB.animations.find(clip => clip.name === "Idle1");
+
+            if (restPoseClip) {
+                const action = this.mixer.clipAction(restPoseClip, phoneGLB.scene);
+                action.play();
+                action.setLoop(THREE.LoopOnce);
+                action.clampWhenFinished = true; // ✅ freeze after playing
+                action.enabled = true;
+            }
+        }
+
+
+
         let mirrorSurfaceMesh: THREE.Mesh | null = null;
         // Zoek naar materiaal met naam "MirrorSurface"
         model.traverse((node: THREE.Object3D) => {
@@ -86,7 +115,7 @@ class Game extends Scene {
         }
 
         gltf.scene.scale.set(15, 15, 15);
-
+        gltf.scene.position.y = 5000;
     }
 
     override async update(): Promise<void> {
