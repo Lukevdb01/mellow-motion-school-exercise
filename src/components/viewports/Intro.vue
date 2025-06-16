@@ -10,6 +10,7 @@ import { useHead } from '@vueuse/head';
   const hideContent = ref(false); // Hides content after fade
   const showBlink = ref(false);
   const phoneScene = ref(false);
+  const blackBg = ref(false); // Control black background visibility
 
   useHead({
   title: 'Mellow Motion - zelfbeeld',

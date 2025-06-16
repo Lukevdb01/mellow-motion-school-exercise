@@ -21,7 +21,6 @@ watch(
         setTimeout(() => {
           emit('blink-finished');
           emit('update:modelValue', false);
-          visible.value = false;
         }, 2500); // 1.5s animation + 1s stay-closed delay
       }
     }

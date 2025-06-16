@@ -17,6 +17,7 @@ const introNextSceneId = ref<string | null>(null);
 const introNextScene3D = ref<string | null>(null);
 const showEndScreen = ref(false);
 const OpenBlink = ref(false);
+const showBlinkSecond = ref(false);
 
 const toggleQuestion = ref(false);
 
@@ -58,7 +59,10 @@ const verzorging = () => {
 };
 
 const endExperience = () => {
-  showEndScreen.value = true;
+  showBlinkSecond.value = true;
+  setTimeout(() => {
+    showEndScreen.value = true;
+  }, 2000); // Adjust the duration as needed
 }
 
 
@@ -81,7 +85,7 @@ const submitChoice = async (index: number) => {
     setTimeout(() => {
       sceneManager.setActiveSceneByName(choice.scene3D);
       toggleQuestion.value = false;
-    }, 1000);
+    }, 2000);
   }
 
   if (choice.function) {
@@ -215,6 +219,7 @@ onMounted(() => {
       />
     </div>
   </div>
+  <EyelidBlink v-model="showBlinkSecond" @blinkFinished="blinkFinished"/>
   <div
       v-if="showEndScreen"
       class="fixed inset-0 z-50 bg-white text-gray-900 overflow-y-auto px-6 py-12 flex justify-center items-start"
