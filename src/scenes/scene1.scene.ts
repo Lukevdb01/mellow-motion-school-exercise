@@ -45,11 +45,11 @@ class Game extends Scene {
             }
         });
 
-// Attach to camera for first-person view
+        // Attach to camera for first-person view
         this.camera.add(phoneGLB.scene);
         this.scene.add(this.camera);
 
-// Place hands just in front of camera (adjust if needed)
+        // Place hands just in front of camera (adjust if needed)
         phoneGLB.scene.position.set(-35, -25, 36);
         phoneGLB.scene.scale.set(30, 30, 30);
 
@@ -116,6 +116,7 @@ class Game extends Scene {
 
         gltf.scene.scale.set(15, 15, 15);
         gltf.scene.position.y = 5000;
+        gltf.scene.rotateZ(-0.07);
     }
 
     override async update(): Promise<void> {

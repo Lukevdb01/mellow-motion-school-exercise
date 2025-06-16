@@ -35,6 +35,7 @@ class Game extends Scene {
 
         const gltf = await this.addMesh('models/popetje.glb');
         this.poppetje = gltf.scene;
+        this.poppetje.rotateZ(-0.07);
         if (this.mixer && gltf.animations.length > 0) {
             gltf.animations.forEach((clip) => {
                 this.mixer!.clipAction(clip).play();
@@ -63,6 +64,7 @@ class Game extends Scene {
         this.poppetje.position.z = 2;
         this.camera.position.y = 20;
         this.camera.position.z = 15;
+        this.poppetje.rotateZ(-0.07);
     }
 
     override async update(): Promise<void> {
