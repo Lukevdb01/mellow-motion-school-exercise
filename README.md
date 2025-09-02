@@ -1,3 +1,59 @@
+# Mellow Motion School Exercise
+
+This project is a collaborative web application created as part of a cross-disciplinary school exercise. The goal was to work with students from other fields (notably with MV) to develop an immersive 3D storytelling game that runs directly in the browser.
+
+Built with **Vue.js**, **Three.js**, and **PHP**, the game leverages modern web technologies for interactive, real-time 3D experiences.
+
+> **Project partners:**  
+> [Luke van den Broek](https://github.com/Lukevdb01) & [Samed Bozaslan](https://github.com/SamedBozaslan)
+
+## 🚀 Live Demo
+
+Experience the project in action: [Mellow Motion School Exercise](...)
+
+## 🧑‍💻 What I Learned
+
+- **Object-Oriented Programming (OOP):**  
+  Crafted maintainable and scalable components, deepening my understanding of OOP principles in TypeScript and JavaScript.
+- **3D Rendering & Scene Management:**  
+  Tackled the challenge of building a robust scene management system and integrating Three.js for browser-based 3D graphics.
+- **Agile Practices (Scrum & Project Management):**  
+  Improved collaboration skills by working in sprints, managing tasks, and adapting scrum methodologies to real-world teamwork.
+
+## 🎮 Features
+
+- Built with Vue.js (frontend), Three.js (3D engine), and PHP (backend).
+- Immersive, interactive 3D storytelling gameplay.
+- Modular OOP architecture for easy future expansion.
+- Scene management system for dynamic storytelling.
+- Collaborative development across disciplines.
+
+## 🛠️ Getting Started
+
+To run the project locally:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Lukevdb01/mellow-motion-school-exercise.git
+   cd mellow-motion-school-exercise
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+4. **(Optional) Start the PHP backend:**  
+   If your project uses PHP for API or backend features, ensure your local server (e.g. XAMPP, MAMP) is running and properly configured.
+
+#### © 2025 | Luke van den Broek
+
+---
+
+#### Original project requirements👇
+
 # Project Physical Computing
 
 > This is a project in which game and web developers work together.
