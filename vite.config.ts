@@ -11,7 +11,7 @@ export default defineConfig({
     vueDevTools(),
     tailwindcss(),
   ],
-  base: '/sd3-p12-md-project-2425-mellow-motion/',
+  base: '/mellow-motion-school-exercise/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
