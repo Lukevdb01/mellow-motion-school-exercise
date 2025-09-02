@@ -9,7 +9,7 @@ Built with **Vue.js**, **Three.js**, and **PHP**, the game leverages modern web 
 
 ## 🚀 Live Demo
 
-Experience the project in action: [Mellow Motion School Exercise](...)
+Experience the project in action: [Mellow Motion School Exercise](https://lukevdb01.github.io/mellow-motion-school-exercise/)
 
 ## 🧑‍💻 What I Learned
 
