@@ -45,7 +45,7 @@ onBeforeUnmount(() => {
 
 const returnToHome = () => {
   sceneManager.getActiveScene()?.clearScene();
-  window.location.href = '/sd3-p12-md-project-2425-mellow-motion/';
+  window.location.href = '/mellow-motion-school-exercise/';
 };
 
 </script>

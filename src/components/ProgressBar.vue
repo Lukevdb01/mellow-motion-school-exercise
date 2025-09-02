@@ -22,7 +22,7 @@ function updateActiveScene(newCollection: SceneCollection | null) {
     const isActive = activeBaseScene.value === name
     return {
       key: name,
-      src: `/sd3-p12-md-project-2425-mellow-motion/images/${base}${isActive ? '-extended' : ''}.webp`,
+      src: `/mellow-motion-school-exercise/images/${base}${isActive ? '-extended' : ''}.webp`,
       alt: `${name} scene image`,
     }
   })

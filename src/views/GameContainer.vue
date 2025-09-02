@@ -32,7 +32,7 @@ useHead({
     },
     {
       property: 'og:url',
-      content: 'https://sint-lucas.github.io/sd3-p12-md-project-2425-mellow-motion/',
+      content: 'https://lukevdb01.github.io/mellow-motion-school-exercise/',
     },
     {
       name: 'twitter:card',
@@ -42,7 +42,7 @@ useHead({
   link: [
     {
       rel: 'canonical',
-      href: 'https://sint-lucas.github.io/sd3-p12-md-project-2425-mellow-motion/',
+      href: 'https://lukevdb01.github.io/mellow-motion-school-exercise/',
     },
   ],
 });
